@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".StartScreen">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Сканер ШК"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ff004c70"
+            android:textSize="50dp"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Резервная система считывания штрих кодов"
+            android:id="@+id/textView2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_above="@+id/LognText"
+            android:layout_alignParentRight="true"
+            android:textSize="16dp"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <Button
+            android:id="@+id/Loginbutton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_dialog_info"
+            android:text="@string/LoginBtn"
+            android:src="@android:drawable/ic_menu_gallery"
+            android:singleLine="false"
+            android:gravity="left"
+            android:background="@drawable/btm_aut"
+            android:drawablePadding="10dp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/full_logo5"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+    <!--fragment
+        android:tag="scan_fragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:name="ru.xxmmk.mobilescanbarcode.StartScreen$ScanFragment" tools:layout="@layout/fragment_scan"
+        android:id="@+id/fragment" /-->
+
+
+</RelativeLayout>

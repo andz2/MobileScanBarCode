@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.xxmmk.mobilescanbarcode" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:name="ru.xxmmk.mobilescanbarcode.MobileBCRApp"
+        >
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.StartScreen"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.AccLogin"
+            android:label="@string/title_activity_login"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.NetError"
+            android:label="@string/title_activity_net_error"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.ErrorLogin"
+            android:label="@string/title_activity_login_error"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+        </activity>
+    </application>
+
+</manifest>
