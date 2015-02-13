@@ -37,6 +37,10 @@
             android:label="@string/title_activity_login_error"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
         </activity>
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.SetKPPAct"
+            android:label="@string/title_activity_kpp" >
+        </activity>
     </application>
 
 </manifest>

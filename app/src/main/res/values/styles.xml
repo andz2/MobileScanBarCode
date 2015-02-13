@@ -1,9 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- For honeycomb and up -->
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light">
-        - <!--  Customize your theme here.
-  -->
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
+        <item name="android:actionMenuTextColor">#ffff0000</item>
+    </style>
+
+    <style name="AppTheme.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#2D3E50</item>
+        <item name="android:titleTextStyle">@style/AppTheme.ActionBar.Text</item>
+        <item name="android:subtitleTextStyle">@style/AppTheme.ActionBar.SubTitleText</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.Text" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.SubTitleText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>

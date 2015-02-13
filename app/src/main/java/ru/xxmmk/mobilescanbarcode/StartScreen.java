@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -65,7 +66,7 @@ public class StartScreen extends Activity {
             TextView title = (TextView) findViewById(actionBarTitleId);
             if (title != null) {
                 title.setTextSize(18);
-                title.setTextColor(Color.BLACK);
+                //title.setTextColor(Color.BLACK);
             }
         }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -90,7 +91,10 @@ public class StartScreen extends Activity {
         StartScreen ();
 
     }
-
+    @Override
+    public void onBackPressed() {
+        //здесь можно переопредлить кнопку назад
+    }
     @Override
     protected void onNewIntent(Intent intent) {
         Log.d( mMobileBCRApp.SKDStep, mMobileBCRApp.SKDStep);
@@ -250,12 +254,12 @@ public class StartScreen extends Activity {
                 startActivity(intent);
 
                 setContentView(R.layout.activity_start_screen);
-               /* Button KPPbutton=(Button)findViewById(R.id.SetKPP);
-                KPPbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btm_aut)); //setBackgroundResource
-                KPPbutton.setTextColor(Color.rgb(0,0,0));*/
+                Button KPPbutton=(Button)findViewById(R.id.SetKPP);
+                KPPbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_kpp_state)); //setBackgroundResource
+                KPPbutton.setTextColor(Color.rgb(255,255,255));
                 Button Logbutton=(Button)findViewById(R.id.Loginbutton);
-                Logbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_inact)); //setBackgroundResource
-                Logbutton.setTextColor(Color.rgb(65, 169, 4));
+                Logbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_ok)); //setBackgroundResource
+                Logbutton.setTextColor(Color.rgb(255,255,255));
                 //      Logbutton.setText(Html.fromHtml(/*getResources().getString(R.string.seccabstr)*/"<b>Личный кабинет</b><br><br><sup><small>Нажмите для информации</small></sup>"));
                 mMobileBCRApp.SKDStep = "2";
             } else
@@ -283,12 +287,12 @@ public class StartScreen extends Activity {
                         startActivity(intent);
 
                         setContentView(R.layout.activity_start_screen);
-                        /*Button KPPbutton=(Button)findViewById(R.id.SetKPP);
-                        KPPbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btm_aut)); //setBackgroundResource
-                        KPPbutton.setTextColor(Color.rgb(0,0,0));*/
+                        Button KPPbutton=(Button)findViewById(R.id.SetKPP);
+                        KPPbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_aut_state)); //setBackgroundResource
+                        KPPbutton.setTextColor(Color.rgb(255,255,255));
                         Button Logbutton=(Button)findViewById(R.id.Loginbutton);
                         Logbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_inact)); //setBackgroundResource
-                        Logbutton.setTextColor(Color.rgb(65, 169, 4));
+                        Logbutton.setTextColor(Color.rgb(0, 0, 0));/*(Color.rgb(65, 169, 4));*/
                         //      Logbutton.setText(Html.fromHtml(/*getResources().getString(R.string.seccabstr)*/"<b>Личный кабинет</b><br><br><sup><small>Нажмите для информации</small></sup>"));
                         mMobileBCRApp.SKDStep = "2";
                     }
@@ -309,11 +313,14 @@ public class StartScreen extends Activity {
 
     public void StartScreen ()
     {
+        Button KPPbutton=(Button)findViewById(R.id.SetKPP);
         Button Logbutton=(Button)findViewById(R.id.Loginbutton);
+        Button Scanbutton=(Button)findViewById(R.id.ScanBtn);
+        Button Exitbutton=(Button)findViewById(R.id.ExitBtn);
 
         if (mMobileBCRApp.SKDStep!="1") {
             //  Logbutton.setText(Html.fromHtml(/*getResources().getString(R.string.seccabstr)*/"<b>Личный кабинет</b><br><br><sup><small>Нажмите для информации</small></sup>"));
-            Logbutton.setText(Html.fromHtml(/*getResources().getString(R.string.seccabstr)*/"<b>Вход выполнен</b><br><br><sup><small>Выберите КПП </small></sup>"));
+            Logbutton.setText(Html.fromHtml(/*getResources().getString(R.string.seccabstr)*/"<b>Вход выполнен</b><br><br><sup><small>Выберите автопроезд </small></sup>"));
         }
 
                if (mMobileBCRApp.SKDStep=="1")
@@ -321,10 +328,82 @@ public class StartScreen extends Activity {
             Logbutton.setText(Html.fromHtml(/*getResources().getString(R.string.seccabstr)*/"<b>Авторизоваться</b><br><br><sup><small>Поднесите личную карту к устройству</small></sup>"));
 
         }
+        if (mMobileBCRApp.SKDStep=="3")
+        {
+
+            Scanbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_scan_state)); //setBackgroundResource
+            Scanbutton.setTextColor(Color.rgb(255,255,255));
+
+            //Exitbutton.setTextColor(Color.rgb(0,0,0));
+        }
+        KPPbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //         Log.d("Go KPP","Go KPP");
+                if ((mMobileBCRApp.SKDStep == "2") || (mMobileBCRApp.SKDStep == "3")) {
+                    Intent intent = new Intent(view.getContext(), SetKPPAct.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    view.getContext().startActivity(intent);
+                }
+            }
+        });
+        Exitbutton.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View view) {
+
+                                                  Log.d("exit","exit");
+                                                  mMobileBCRApp.SKDStep="1";
+                                                  mMobileBCRApp.SKDKPP="Укажите КПП";
+                                                  mMobileBCRApp.SKDOperator="Кто ВЫ?";
+
+                                                  finish();
+                                                  StartScreen();
+
+                                          }
+                                      }
+        );
     }
     public void enableForegroundMode() {
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED); // filter for all
         IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
         nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
+    }
+
+    public void scanBarcode(View view) {
+        new IntentIntegrator((Activity)this).initiateScan();
+    }
+
+    public void scanBarcodeCustomOptions(View view) {
+    //    Toast.makeText(this, "Сканирование штрих кодов запрещено", Toast.LENGTH_LONG).show();
+        if (1==1) {
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+            integrator.autoWide();
+            integrator.initiateScan();
+        }
+    }
+
+    public void encodeBarcode(View view) {
+        new IntentIntegrator(this).shareText("Test Barcode");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        mMobileBCRApp.idBarCode=result.getContents();
+        /*временно присваиваем штриход в самовывоз*/
+        mMobileBCRApp.SKDRfId=result.getContents();
+        if(result != null) {
+            if(result.getContents() == null) {
+                Toast.makeText(this, "Сканирование отменено", Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent();
+                /*Уходим на другой экран*/
+                /*intent.setClass(OperLogin.this, BarCodeRes.class);
+                startActivity(intent);*/
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

@@ -40,11 +40,13 @@ public class MobileBCRApp extends Application {
         public String SKDKPP="Укажите КПП";
         public String SKDStep="1";
         public String SKDOperRfId;
+        public String idBarCode;
         public String SKDRfId;
         public Boolean    NetErr = false;
         protected String mResult= "null";
         private String mLoginURL = "http://neptun.eco.mmk.chel.su:7777/pls/apex/XXOTA_APEX.XXHR_SKD_MOBILE.login";//"https://navigator.mmk.ru/login_kis.aspx";
         public String mDatURL = "http://neptun.eco.mmk.chel.su:7777/pls/apex/XXOTA_APEX.MOBILE_SKD_VIEW";//"https://navigator.mmk.ru/login_kis.aspx";
+        public String ListKPP = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxhr_skd_mobile.list_kpp";
 
         private static MobileBCRApp instance;
         public MobileBCRDB getmDbHelper() {

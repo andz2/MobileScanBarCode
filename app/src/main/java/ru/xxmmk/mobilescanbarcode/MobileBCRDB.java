@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -100,6 +101,28 @@ public class MobileBCRDB extends SQLiteOpenHelper {
             do {
                 //c.moveToFirst();
                 returnList.put("operator", c.getString(0));
+            } while (c.moveToNext());
+        }
+        if (c != null && !c.isClosed()) {
+            c.close();
+        }
+        db.close();
+        return returnList;
+    }
+    public ArrayList<HashMap<String,String>> getSKDMobDev()
+    {
+        ArrayList<HashMap<String,String>> returnList = new ArrayList<HashMap<String,String>>();
+        //  HashMap<String, String> temp = new HashMap<String, String>();
+        Cursor c=null;
+        SQLiteDatabase db = this.getWritableDatabase();
+        c = db.rawQuery("select kpp_name ,skd_kpp ,sort_kpp from xxhr_skd_objects order by sort_kpp",null);
+        if (c.moveToFirst()) {
+            do {
+                HashMap<String, String> temp = new HashMap<String, String>();
+                temp.put("kpp_name", c.getString(0));
+             /*   temp.put("skd_kpp", c.getString(1));
+                temp.put("sort_kpp", c.getString(2));*/
+                returnList.add(temp);
             } while (c.moveToNext());
         }
         if (c != null && !c.isClosed()) {
