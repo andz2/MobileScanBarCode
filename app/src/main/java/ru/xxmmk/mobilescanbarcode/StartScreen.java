@@ -355,9 +355,9 @@ public class StartScreen extends Activity {
                                                   mMobileBCRApp.SKDStep="1";
                                                   mMobileBCRApp.SKDKPP="Укажите КПП";
                                                   mMobileBCRApp.SKDOperator="Кто ВЫ?";
-
                                                   finish();
-                                                  StartScreen();
+                                                  System.exit(0);
+                                              // StartScreen();
 
                                           }
                                       }

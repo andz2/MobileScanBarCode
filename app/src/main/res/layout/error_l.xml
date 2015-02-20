@@ -27,8 +27,9 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:id="@+id/imageView"
-                android:layout_gravity="center"
-                android:src="@drawable/rerr" />
+                android:layout_gravity="center_horizontal|top"
+                android:src="@drawable/rerr"
+                android:layout_marginTop="20dp" />
         </FrameLayout>
     </LinearLayout>
 

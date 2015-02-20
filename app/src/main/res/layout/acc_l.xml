@@ -36,13 +36,14 @@
                 android:longClickable="false"
                 android:minHeight="100dp"
                 android:minWidth="100dp"
-                 />
+                android:layout_marginTop="20dp" />
 
             <ImageView
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:id="@+id/photoim"
-                android:layout_gravity="center_horizontal|bottom" />
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginTop="10dp" />
         </FrameLayout>
     </LinearLayout>
 

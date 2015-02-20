@@ -48,6 +48,8 @@ public class MobileBCRApp extends Application {
         public String mDatURL = "http://neptun.eco.mmk.chel.su:7777/pls/apex/XXOTA_APEX.MOBILE_SKD_VIEW";//"https://navigator.mmk.ru/login_kis.aspx";
         public String ListKPP = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxhr_skd_mobile.list_kpp";
 
+        public String ListCargoItems = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_header_json";
+
         private static MobileBCRApp instance;
         public MobileBCRDB getmDbHelper() {
             Log.d(this.getLOG_TAG(), "MobileBCRApp.getmDbHelper");
