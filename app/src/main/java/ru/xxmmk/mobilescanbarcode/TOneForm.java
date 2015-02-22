@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -66,8 +67,31 @@ public class TOneForm extends Activity  {
         lv = (ListView) this.findViewById(R.id.listView);
         lv.setAdapter(new MyAdapter(this, dataLV));
 
-    }
+        lv.getAdapter().getView(2,lv.getChildAt(2),lv).setBackgroundColor(getResources().getColor(R.color.abc_search_url_text_holo));
+        View v1 =getViewByPosition(2,lv);
+        v1.setBackgroundColor(getResources().getColor(R.color.abc_search_url_text_holo));
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position,
+                                    long id) {
+                Log.d("1","click lv pos="+position+lv.getItemAtPosition(position)+dataLV.get(position).getSubHeader1()+";");
+            //    view.setBackgroundColor(getResources().getColor(R.color.abc_search_url_text_holo));
+            }
+        });
+
+    }
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
+    }
 
     @Override
     protected void  onResume() {

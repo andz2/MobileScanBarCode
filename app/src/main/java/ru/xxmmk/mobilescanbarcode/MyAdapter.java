@@ -2,14 +2,17 @@ package ru.xxmmk.mobilescanbarcode;
 
 import java.util.ArrayList;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class MyAdapter extends BaseAdapter {
+    String bc =";Подзаголовок3-1;Подзаголовок5-1;";
 
     ArrayList<T1Item> data = new ArrayList<T1Item>();
     Context context;
@@ -62,6 +65,26 @@ public class MyAdapter extends BaseAdapter {
         subHeader.setText(data.get(i).subHeader);
         // потом подзаголовок 1
         subHeader1.setText(data.get(i).subHeader1);
+
+       /* header.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("1","click");
+            }
+        })
+       ;*/
+
+        if (bc.contains(data.get(i).subHeader1))
+        {
+            someView.setBackgroundColor(context.getResources().getColor(R.color.title_red));
+            //getResources().getColor(R.color.subtitle_red)
+          //  Color.parseColor("#2D3E50")
+            subHeader1.setTextColor(Color.parseColor("white"));
+        }
+        else
+        {
+            someView.setBackgroundColor(Color.WHITE);
+        }
 
 
         return someView;
