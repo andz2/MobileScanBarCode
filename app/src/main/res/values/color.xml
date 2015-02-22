@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="title_red">#990000</color>
+    <color name="text_white">#ffffffff</color>
+    <color name="text_dark">#ff000000</color>
+</resources>
