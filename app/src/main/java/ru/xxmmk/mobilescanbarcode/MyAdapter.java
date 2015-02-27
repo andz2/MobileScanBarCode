@@ -9,11 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MyAdapter extends BaseAdapter {
-    String bc =";Подзаголовок3-1;Подзаголовок5-1;";
-
     ArrayList<T1Item> data = new ArrayList<T1Item>();
     Context context;
 
@@ -43,7 +42,6 @@ public class MyAdapter extends BaseAdapter {
     public void onClick(View v) {
 
     }
-
     @Override
     public View getView(int i, View someView, ViewGroup arg2) {
         //Получение объекта inflater из контекста
@@ -56,8 +54,8 @@ public class MyAdapter extends BaseAdapter {
         //Обявляем наши текствьюшки и связываем их с разметкой
         TextView header = (TextView) someView.findViewById(R.id.idHeader);
         TextView subHeader = (TextView) someView.findViewById(R.id.idSubheader);
-        TextView subHeader1 = (TextView) someView.findViewById(R.id.idSubheader1);
-
+        final TextView subHeader1 = (TextView) someView.findViewById(R.id.idSubheader1); //штрих код
+        ImageView arrow =   (ImageView) someView.findViewById(R.id.descrItem);
         //Устанавливаем в каждую текствьюшку соответствующий текст
         // сначала заголовок
         header.setText(data.get(i).header);
@@ -65,32 +63,26 @@ public class MyAdapter extends BaseAdapter {
         subHeader.setText(data.get(i).subHeader);
         // потом подзаголовок 1
         subHeader1.setText(data.get(i).subHeader1);
-
-       /* header.setOnClickListener(new OnClickListener() {
+        arrow.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("1","click");
-            }
-        })
-       ;*/
+                Log.d("1","click!!!!!!!! "+subHeader1.getText().toString());
+            }});
 
-        if (bc.contains(data.get(i).subHeader1))
+        if (data.get(i).isChecked.equals("1")) //(bc.contains(";"+this.data.get(i).subHeader1+";"))
         {
-            someView.setBackgroundColor(context.getResources().getColor(R.color.title_red));
-            //getResources().getColor(R.color.subtitle_red)
-          //  Color.parseColor("#2D3E50")
+            Log.i("change color",data.get(i).subHeader1);
+            someView.setBackgroundColor(context.getResources().getColor(R.color.bg_green));
+            //Color.parseColor("#2D3E50")
+            subHeader.setTextColor(Color.parseColor("white"));
             subHeader1.setTextColor(Color.parseColor("white"));
         }
         else
         {
             someView.setBackgroundColor(Color.WHITE);
+            subHeader.setTextColor(Color.parseColor("black"));
+            subHeader1.setTextColor(Color.parseColor("black"));
         }
-
-
         return someView;
     }
-
-
-
-
 }

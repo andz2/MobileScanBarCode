@@ -15,7 +15,11 @@
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.StartScreen"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.AccLogin"
@@ -39,11 +43,7 @@
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.TOneForm"
             android:label="@string/title_activity_tone_form" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

@@ -2,7 +2,7 @@
 <!-- For honeycomb and up -->
 <resources>
 
-    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
         <item name="android:actionMenuTextColor">#ffff0000</item>
     </style>

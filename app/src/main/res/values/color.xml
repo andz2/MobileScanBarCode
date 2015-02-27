@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="title_red">#990000</color>
+    <color name="title_red">#c0392b</color>
+    <color name="bg_green">#ff2ecc71</color>
+    <color name="bg_greenbn">#16a085</color>
+    <color name="bg_red">#c0392b</color>
     <color name="text_white">#ffffffff</color>
     <color name="text_dark">#ff000000</color>
+    <color name="bg_blue">#ff2d3e50</color>
+    <color name="bg_chancel">#596566</color>
 </resources>

@@ -7,16 +7,25 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -36,13 +45,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class TOneForm extends Activity  {
+public class TOneForm extends Activity {
     private MobileBCRApp mMobileBCRApp;
     protected NfcAdapter nfcAdapter;
     protected PendingIntent nfcPendingIntent;
     ArrayList<String> data = new ArrayList<String>();
     ListView lv;
     ArrayList<T1Item> dataLV = new ArrayList<T1Item>();
+    private PrintScanData mPrintDataTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,51 +63,78 @@ public class TOneForm extends Activity  {
         ActionBar myAB = getActionBar();
         myAB.setTitle(mMobileBCRApp.SKDOperator);
         myAB.setSubtitle(mMobileBCRApp.SKDKPP);
-        myAB.setDisplayShowHomeEnabled(false);
+        myAB.setDisplayShowHomeEnabled(true);
+        myAB.setDisplayHomeAsUpEnabled(true);
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); //политика сетевого доступа
+        StrictMode.setThreadPolicy(policy); //применяем политику
+/*        dataLV.add(new T1Item("Заголовок1","Подзаголовок1","Подзаголовок1-1","0"));
+        dataLV.add(new T1Item("Заголовок2","Подзаголовок2","Подзаголовок2-1","1"));
+        dataLV.add(new T1Item("Заголовок3","Подзаголовок3","Подзаголовок3-1","0"));
+        dataLV.add(new T1Item("Заголовок4","Подзаголовок4","Подзаголовок4-1","1"));
+        dataLV.add(new T1Item("Заголовок5","Подзаголовок5","Подзаголовок5-1","0"));
+        mMobileBCRApp.dataLV.clear();
+        GetT1Data();*/
+        GetT1(mMobileBCRApp.idBarCode);
 
 
-        dataLV.add(new T1Item("Заголовок1","Подзаголовок1","Подзаголовок1-1"));
-        dataLV.add(new T1Item("Заголовок2","Подзаголовок2","Подзаголовок2-1"));
-        dataLV.add(new T1Item("Заголовок3","Подзаголовок3","Подзаголовок3-1"));
-        dataLV.add(new T1Item("Заголовок4","Подзаголовок4","Подзаголовок4-1"));
-        dataLV.add(new T1Item("Заголовок5","Подзаголовок5","Подзаголовок5-1"));
+        TextView DriverFio = (TextView) findViewById(R.id.drN);
+        TextView AutoNum = (TextView) findViewById(R.id.autoN);
+        TextView NumT1 = (TextView) findViewById(R.id.NumT1);
+
+        if (mMobileBCRApp.T1Num.equals("Не найдено, код неверен")) {
+            NumT1.setText(mMobileBCRApp.T1Num);
+            AutoNum.setText(" ");
+            DriverFio.setText(" ");
+        } else {
+            NumT1.setText("Номер T1:  " + mMobileBCRApp.T1Num);
+            AutoNum.setText("Номер автомобиля:  " + mMobileBCRApp.T1Auto);
+            DriverFio.setText("ФИО водителя:  " + mMobileBCRApp.T1Driver);
+        }
+
+        for (int i = 0; i < mMobileBCRApp.dataLV.size(); i++) {
+            if (mMobileBCRApp.BarCodeR.contains(";" + mMobileBCRApp.dataLV.get(i).getSubHeader1() + ";")) {
+                mMobileBCRApp.dataLV.get(i).setChecked("1");
+            }
+        }
         lv = (ListView) this.findViewById(R.id.listView);
-        lv.setAdapter(new MyAdapter(this, dataLV));
-
-        lv.getAdapter().getView(2,lv.getChildAt(2),lv).setBackgroundColor(getResources().getColor(R.color.abc_search_url_text_holo));
-        View v1 =getViewByPosition(2,lv);
-        v1.setBackgroundColor(getResources().getColor(R.color.abc_search_url_text_holo));
+        lv.setAdapter(new MyAdapter(this, mMobileBCRApp.dataLV));
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position,
                                     long id) {
-                Log.d("1","click lv pos="+position+lv.getItemAtPosition(position)+dataLV.get(position).getSubHeader1()+";");
-            //    view.setBackgroundColor(getResources().getColor(R.color.abc_search_url_text_holo));
+                Log.d("1", "click lv pos=" + mMobileBCRApp.dataLV.get(position).getSubHeader1() + ";");
+
+            }
+        });
+        FloatingActionButton fabButton = new FloatingActionButton.Builder(this)
+                .withDrawable(getResources().getDrawable(R.drawable.abc_ic_cab_done_holo_dark/*R.drawable.block*/))
+                .withButtonColor(Color.RED)
+                .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
+                .withButtonSize(92)
+                .withMargins(0, 0, 10,480)
+                .create();
+        fabButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(TOneForm.this, TOneForm.class);
+
+                startActivity(intent);
             }
         });
 
     }
-    public View getViewByPosition(int pos, ListView listView) {
-        final int firstListItemPosition = listView.getFirstVisiblePosition();
-        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
-        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
-            return listView.getAdapter().getView(pos, null, listView);
-        } else {
-            final int childIndex = pos - firstListItemPosition;
-            return listView.getChildAt(childIndex);
-        }
-    }
 
     @Override
-    protected void  onResume() {
+    protected void onResume() {
         super.onResume();
         enableForegroundMode();
-     //   disableForegroundMode();
+        //   disableForegroundMode();
         ActionBar myAB = getActionBar();
         myAB.setTitle(mMobileBCRApp.SKDOperator);
         myAB.setSubtitle(mMobileBCRApp.SKDKPP);
@@ -105,15 +142,15 @@ public class TOneForm extends Activity  {
     }
 
 
-
     @Override
     protected void onNewIntent(Intent intent) {
-       // Log.d("Intent", "Считываем nfc");
+        // Log.d("Intent", "Считываем nfc");
     }
+
     public void enableForegroundMode() {
         //Log.d(TAG, "enableForegroundMode");
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED); // filter for all
-        IntentFilter[] writeTagFilters = new IntentFilter[] {tagDetected};
+        IntentFilter[] writeTagFilters = new IntentFilter[]{tagDetected};
         nfcAdapter.enableForegroundDispatch(this, nfcPendingIntent, writeTagFilters, null);
     }
 
@@ -122,38 +159,164 @@ public class TOneForm extends Activity  {
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    //   getMenuInflater().inflate(R.menu.menu_tone_form, menu);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //   getMenuInflater().inflate(R.menu.menu_tone_form, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
+        // обработка нажатий в actionbar
+        finish();
+/*        int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-
+        }*/
         return super.onOptionsItemSelected(item);
     }
-    public void GetKpp ()
-    {
+    //запуск сканирования
+    public void scanBarcodeCustomOptions(View view) {
+        //    Toast.makeText(this, "Сканирование штрих кодов запрещено", Toast.LENGTH_LONG).show();
+        if (1==1) { //в условии необходимо добавить проверку на шаг
+          //  mMobileBCRApp.dataLV.clear();
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+            integrator.autoWide();
+            integrator.initiateScan();
+        }
+    }
+    public void encodeBarcode(View view) {
+        new IntentIntegrator(this).shareText("Test Barcode");
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Toast.makeText(this, "Сканирование отменено", Toast.LENGTH_LONG).show();
+            } else {
+                /*временно присваиваем штриход в строку с элементами*/
+                mMobileBCRApp.BarCodeR=mMobileBCRApp.BarCodeR+";Штрихкод: "+result.getContents()+";";
+                Intent intent = new Intent();
+                finish();
+                /*рефрешим экран*/
+                intent.setClass(TOneForm.this, TOneForm.class);
+                startActivity(intent);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+//запуск асинхронного таска
+    public void GetT1Data() {
+        if (mPrintDataTask != null) {
+            return;
+        }
+        boolean cancel = false;
+        View focusView = null;
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+//            showProgress(true); *************************************************************************подменить на показ окна
+            mPrintDataTask = new PrintScanData(mMobileBCRApp.SKDRfId);
+            mPrintDataTask.execute((Void) null);
+        }
+    }
+
+    public class PrintScanData extends AsyncTask<Void, Void, Boolean> {
+        private String mToken = "null";
+
+        PrintScanData(String rfId) {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            GetT1(mMobileBCRApp.idBarCode);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mPrintDataTask = null;
+            // showProgress(false); ******************************************************
+        }
+        @Override
+        protected void onCancelled() {
+            mPrintDataTask = null;
+            //   showProgress(false);****************************************************
+        }
+    }
+
+    public void GetT1(String T1BC) {
+        mMobileBCRApp.dataLV.clear();
         Boolean vStatus = false;
-        mMobileBCRApp.NetErr=false;
+        mMobileBCRApp.NetErr = false;
+        try {
+            StringBuilder builder = new StringBuilder();
+            HttpClient client = mMobileBCRApp.getNewHttpClient(); //new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(mMobileBCRApp.getT1HeaderDataURL(T1BC));
+            try {
+                HttpResponse response = client.execute(httpGet);
+                StatusLine statusLine = response.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+                if (statusCode == 200) {
+                    HttpEntity entity = response.getEntity();
+                    InputStream content = entity.getContent();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line);
+                    }
+                    try {
+                        //Toast.makeText(this.getBaseContext(), builder.toString(), Toast.LENGTH_LONG).show();
+                        JSONArray jsonArray = new JSONArray(builder.toString());
+                        mMobileBCRApp.T1Driver = "Не найдено, код неверен";
+                        mMobileBCRApp.T1Auto = "Не найдено, код неверен";
+                        mMobileBCRApp.T1Header = "Не найдено, код неверен";
+                        mMobileBCRApp.T1Num = "Не найдено, код неверен";
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            mMobileBCRApp.T1Driver = jsonObject.getString("FIODRIVER");
+                            mMobileBCRApp.T1Auto = jsonObject.getString("NUMAUTO");
+                            mMobileBCRApp.T1Header = jsonObject.getString("DELIVNUM");
+                            mMobileBCRApp.T1Num = jsonObject.getString("T1NUM");
+                            //mMobileBCRApp.dataLV.add(new T1Item (jsonObject.getString("PRODUCTNAME"),jsonObject.getString("CERNNUM"),jsonObject.getString("BARCODE"),"0"));
+                            vStatus = true;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Log.d("not ok", "not ok");
+                }
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+                mMobileBCRApp.NetErr = true;
+            }
+            Thread.sleep(10);
+            if (vStatus) {
+//                        return true;
+                Log.d("ok", "ok");
+            } else {
+                Log.d("not ok", "not ok");
+//                        return false;
+            }
+
+        } catch (InterruptedException e) {
+            Log.d("not ok", "not ok");
+//                    return false;
+        }
 
         try {
             StringBuilder builder = new StringBuilder();
             HttpClient client = mMobileBCRApp.getNewHttpClient(); //new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(mMobileBCRApp.ListCargoItems);
-            //Log.d(mMobileBCRApp.getLOG_TAG(), mMobileBCRApp.ListCargoItems);
+            HttpGet httpGet = new HttpGet(mMobileBCRApp.getT1ItemDataURL(mMobileBCRApp.T1Num));
+            //  Log.d(mMobileBCRApp.getLOG_TAG(), mMobileBCRApp.ListCargoItems);
             try {
                 HttpResponse response = client.execute(httpGet);
                 StatusLine statusLine = response.getStatusLine();
@@ -171,60 +334,35 @@ public class TOneForm extends Activity  {
                         JSONArray jsonArray = new JSONArray(builder.toString());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            data.add(jsonObject.getString("KPP_NAME"));
+                            mMobileBCRApp.dataLV.add(new T1Item(jsonObject.getString("PRODUCTNAME"), jsonObject.getString("CERNNUM"), jsonObject.getString("BARCODE"), "0"));
+                            //   data.add(jsonObject.getString("KPP_NAME"));
                             vStatus = true;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-
                     }
                 } else {
-                    Log.d("not ok","not ok");
+                    Log.d("not ok", "not ok");
                 }
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-                mMobileBCRApp.NetErr=true;
+                mMobileBCRApp.NetErr = true;
             }
-
             Thread.sleep(10);
             if (vStatus) {
 //                        return true;
-                Log.d("ok","ok");
+                Log.d("ok", "ok");
             } else {
-                Log.d("not ok","not ok");
+                Log.d("not ok", "not ok");
 //                        return false;
             }
 
         } catch (InterruptedException e) {
-            Log.d("not ok","not ok");
+            Log.d("not ok", "not ok");
 //                    return false;
         }
-        if (mMobileBCRApp.NetErr)
-        {
-            ArrayList<HashMap<String, String>> mKpp = new ArrayList<HashMap<String, String>>();
-
-            mKpp=mMobileBCRApp.getmDbHelper().getSKDMobDev();
-            HashMap<String, String> m = mKpp.get(0);//берём первый элемент в массиве hashMap
-
-            String strArr[] = new String[m.size()];
-
-
-            int i = 0;
-            for (HashMap<String, String> hash : mKpp) {
-                for (String current : hash.values()) { //для каждого значения в строке хэшмапа
-//                        strArr[i] = current;
-                    data.add(current);
-                    //   Log.d("!!"+current,"!!!!");
-                    i++;
-                }
-
-
-            }
-        }
-
 //            return false;
     }
-
 }

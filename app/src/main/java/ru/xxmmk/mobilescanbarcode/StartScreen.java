@@ -93,7 +93,7 @@ public class StartScreen extends Activity {
     }
     @Override
     public void onBackPressed() {
-        //здесь можно переопредлить кнопку назад
+        //здесь можно переопределить кнопку назад
     }
     @Override
     protected void onNewIntent(Intent intent) {
@@ -373,9 +373,11 @@ public class StartScreen extends Activity {
         new IntentIntegrator((Activity)this).initiateScan();
     }
 
+    //запуск сканирования
     public void scanBarcodeCustomOptions(View view) {
     //    Toast.makeText(this, "Сканирование штрих кодов запрещено", Toast.LENGTH_LONG).show();
-        if (1==1) {
+        if (1==1) { //в условии необходимо добавить проверку на шаг
+            mMobileBCRApp.dataLV.clear();
             IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
             integrator.autoWide();
@@ -397,10 +399,11 @@ public class StartScreen extends Activity {
             if(result.getContents() == null) {
                 Toast.makeText(this, "Сканирование отменено", Toast.LENGTH_LONG).show();
             } else {
+                mMobileBCRApp.BarCodeR="";
                 Intent intent = new Intent();
                 /*Уходим на другой экран*/
-                /*intent.setClass(OperLogin.this, BarCodeRes.class);
-                startActivity(intent);*/
+                intent.setClass(StartScreen.this, TOneForm.class);
+                startActivity(intent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

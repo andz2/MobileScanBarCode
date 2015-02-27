@@ -29,6 +29,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -40,7 +41,7 @@ public class MobileBCRApp extends Application {
         public String SKDKPP="Укажите КПП";
         public String SKDStep="1";
         public String SKDOperRfId;
-        public String idBarCode;
+        public String idBarCode = "12345";
         public String SKDRfId;
         public Boolean    NetErr = false;
         protected String mResult= "null";
@@ -48,9 +49,19 @@ public class MobileBCRApp extends Application {
         public String mDatURL = "http://neptun.eco.mmk.chel.su:7777/pls/apex/XXOTA_APEX.MOBILE_SKD_VIEW";//"https://navigator.mmk.ru/login_kis.aspx";
         public String ListKPP = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxhr_skd_mobile.list_kpp";
 
-        public String ListCargoItems = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_header_json";
+        public String URLListCargoItems = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_list_json";
+        public String URLT1Headerdata       = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_hdr_json";
+        public String T1Header;
+        public String BarCodeR =""; //";Штрихкод: 324;Штрихкод: 785;";
+        public String CurrBC =""; //текущий шк
+        public ArrayList<T1Item> dataLV = new ArrayList<T1Item>(); //массив итемов для Т1
+
+        public String T1Driver;
+        public String T1Num="";
+        public String T1Auto;
 
         private static MobileBCRApp instance;
+
         public MobileBCRDB getmDbHelper() {
             Log.d(this.getLOG_TAG(), "MobileBCRApp.getmDbHelper");
             return mDbHelper;
@@ -73,6 +84,13 @@ public class MobileBCRApp extends Application {
     public void onTerminate(){
         super.onTerminate();
         mDbHelper.close();
+    }
+
+    public String getT1HeaderDataURL(String bc) {
+        return this.URLT1Headerdata+"?p_bc="+bc+"";
+    }
+    public String getT1ItemDataURL(String T1N) {
+        return this.URLListCargoItems+"?p_t1n="+T1N+"";
     }
 
     public static MobileBCRApp getInstance() {

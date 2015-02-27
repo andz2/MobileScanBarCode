@@ -12,7 +12,34 @@
         android:layout_height="80dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout2"></LinearLayout>
+        android:id="@+id/linearLayout2"
+        android:weightSum="1"
+        android:background="#2c2c4476">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/NumT1"
+            android:gravity="top|left"
+            android:textSize="24sp"
+            android:layout_gravity="top|right" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/drN"
+            android:layout_gravity="right" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/autoN"
+            android:layout_gravity="right" />
+
+    </LinearLayout>
 
     <ListView
         android:layout_width="wrap_content"
@@ -24,11 +51,36 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="65dp"
         android:layout_alignParentTop="false"
         android:layout_alignParentLeft="false"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:id="@+id/linearLayout3"></LinearLayout>
+        android:id="@+id/linearLayout3"
+        android:weightSum="1">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Ручной ввод"
+            android:drawableLeft="@android:drawable/ic_dialog_dialer"
+            android:id="@+id/ScanBn"
+            android:background="@drawable/btn_kpp_state"
+            android:paddingLeft="10dp"
+            android:layout_weight="0.5"
+            android:textColor="@color/text_white" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:drawableLeft="@drawable/abc_ic_search"
+            android:text="Сканировать"
+            android:id="@+id/nextBn"
+            android:background="@drawable/btn_scan_state"
+            android:layout_weight="0.5"
+            android:paddingLeft="10dp"
+            android:onClick="scanBarcodeCustomOptions"
+            android:textColor="@color/text_white" />
+    </LinearLayout>
 
 </RelativeLayout>
