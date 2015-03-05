@@ -52,13 +52,14 @@ public class MobileBCRApp extends Application {
         public String URLListCargoItems = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_list_json";
         public String URLT1Headerdata       = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_hdr_json";
         public String T1Header;
-        public String BarCodeR =""; //";Штрихкод: 324;Штрихкод: 785;";
-        public String CurrBC =""; //текущий шк
+        public String BarCodeR =""; //";Штрихкод: 324;Штрихкод: 785;"; массив штрих кодов
+        public String CurrBC ="";   //текущий шк
         public ArrayList<T1Item> dataLV = new ArrayList<T1Item>(); //массив итемов для Т1
 
-        public String T1Driver;
-        public String T1Num="";
-        public String T1Auto;
+        public String T1Driver;  //водитель
+        public String T1Num="";  //номер Т-1
+        public String T1Auto;    //номер авто
+        public Boolean isChancel = false;
 
         private static MobileBCRApp instance;
 

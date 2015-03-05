@@ -5,6 +5,20 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.FLASHLIGHT"
+        android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"
+        android:protectionLevel="normal" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="true" />
 
     <application
         android:name="ru.xxmmk.mobilescanbarcode.MobileBCRApp"
@@ -43,6 +57,10 @@
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.TOneForm"
             android:label="@string/title_activity_tone_form" >
+        </activity>
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.EnterCode"
+            android:label="@string/title_activity_enter_code" >
 
         </activity>
     </application>

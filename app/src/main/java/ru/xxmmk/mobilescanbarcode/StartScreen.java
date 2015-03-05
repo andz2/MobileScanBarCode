@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.hardware.Camera;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.AsyncTask;
@@ -38,17 +39,43 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.google.zxing.client.android.camera.CameraConfigurationUtils;
+import com.google.zxing.client.android.camera.CameraManager;
+
+
+import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
+import android.hardware.Camera;
+import android.util.Log;
+
+import com.google.zxing.client.android.camera.CameraConfigurationUtils;
 
 
 public class StartScreen extends Activity {
+
+  /*  //flag to detect flash is on or off
+    private boolean isLighOn = false;
+    private Camera camera;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (camera != null) {
+            camera.release();
+        }
+    }*/
+
     private MobileBCRApp mMobileBCRApp;
     protected NfcAdapter nfcAdapter;
     protected PendingIntent nfcPendingIntent;
     private UserLoginTask mAuthTask = null;
     Context context;
+    private CameraManager cameraManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +104,14 @@ public class StartScreen extends Activity {
         nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         StartScreen ();
 
+//*****************
+ /*       camera = Camera.open();
+        final Parameters p = camera.getParameters();
+                    p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+                    camera.setParameters(p);
+                    camera.startPreview();*/
+//*****************
+
     }
     @Override
     protected void  onResume()
@@ -88,6 +123,7 @@ public class StartScreen extends Activity {
         myAB.setTitle(mMobileBCRApp.SKDOperator);
         myAB.setSubtitle(mMobileBCRApp.SKDKPP);
         myAB.setDisplayShowHomeEnabled(false);
+        cameraManager = new CameraManager(getApplication());
         StartScreen ();
 
     }
@@ -336,6 +372,19 @@ public class StartScreen extends Activity {
 
             //Exitbutton.setTextColor(Color.rgb(0,0,0));
         }
+        Scanbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //         Log.d("Go KPP","Go KPP");
+                /*Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+                intent.putExtra("SCAN_MODE", "ONE_D_MODE");
+                intent.putExtra("SCAN_FORMATS", "CODE_39,CODE_93,CODE_128,DATA_MATRIX,ITF,CODABAR,EAN_13,EAN_8,UPC_A,QR_CODE");
+                startActivityForResult(intent,1);*/
+
+                scanBarcodeCustomOptions(view);
+            }
+        });
+
         KPPbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -376,13 +425,14 @@ public class StartScreen extends Activity {
     //запуск сканирования
     public void scanBarcodeCustomOptions(View view) {
     //    Toast.makeText(this, "Сканирование штрих кодов запрещено", Toast.LENGTH_LONG).show();
-        if (1==1) { //в условии необходимо добавить проверку на шаг
             mMobileBCRApp.dataLV.clear();
+
+            cameraManager.setTorch(true);
+
             IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
             integrator.autoWide();
             integrator.initiateScan();
-        }
     }
 
     public void encodeBarcode(View view) {
@@ -408,5 +458,8 @@ public class StartScreen extends Activity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+    CameraManager getCameraManager() {
+        return cameraManager;
     }
 }

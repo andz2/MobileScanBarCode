@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -53,6 +54,7 @@ public class TOneForm extends Activity {
     ListView lv;
     ArrayList<T1Item> dataLV = new ArrayList<T1Item>();
     private PrintScanData mPrintDataTask = null;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,46 +73,6 @@ public class TOneForm extends Activity {
         nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); //политика сетевого доступа
         StrictMode.setThreadPolicy(policy); //применяем политику
-/*        dataLV.add(new T1Item("Заголовок1","Подзаголовок1","Подзаголовок1-1","0"));
-        dataLV.add(new T1Item("Заголовок2","Подзаголовок2","Подзаголовок2-1","1"));
-        dataLV.add(new T1Item("Заголовок3","Подзаголовок3","Подзаголовок3-1","0"));
-        dataLV.add(new T1Item("Заголовок4","Подзаголовок4","Подзаголовок4-1","1"));
-        dataLV.add(new T1Item("Заголовок5","Подзаголовок5","Подзаголовок5-1","0"));
-        mMobileBCRApp.dataLV.clear();
-        GetT1Data();*/
-        GetT1(mMobileBCRApp.idBarCode);
-
-
-        TextView DriverFio = (TextView) findViewById(R.id.drN);
-        TextView AutoNum = (TextView) findViewById(R.id.autoN);
-        TextView NumT1 = (TextView) findViewById(R.id.NumT1);
-
-        if (mMobileBCRApp.T1Num.equals("Не найдено, код неверен")) {
-            NumT1.setText(mMobileBCRApp.T1Num);
-            AutoNum.setText(" ");
-            DriverFio.setText(" ");
-        } else {
-            NumT1.setText("Номер T1:  " + mMobileBCRApp.T1Num);
-            AutoNum.setText("Номер автомобиля:  " + mMobileBCRApp.T1Auto);
-            DriverFio.setText("ФИО водителя:  " + mMobileBCRApp.T1Driver);
-        }
-
-        for (int i = 0; i < mMobileBCRApp.dataLV.size(); i++) {
-            if (mMobileBCRApp.BarCodeR.contains(";" + mMobileBCRApp.dataLV.get(i).getSubHeader1() + ";")) {
-                mMobileBCRApp.dataLV.get(i).setChecked("1");
-            }
-        }
-        lv = (ListView) this.findViewById(R.id.listView);
-        lv.setAdapter(new MyAdapter(this, mMobileBCRApp.dataLV));
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View view, int position,
-                                    long id) {
-                Log.d("1", "click lv pos=" + mMobileBCRApp.dataLV.get(position).getSubHeader1() + ";");
-
-            }
-        });
         FloatingActionButton fabButton = new FloatingActionButton.Builder(this)
                 .withDrawable(getResources().getDrawable(R.drawable.abc_ic_cab_done_holo_dark/*R.drawable.block*/))
                 .withButtonColor(Color.RED)
@@ -120,12 +82,32 @@ public class TOneForm extends Activity {
                 .create();
         fabButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 Intent intent = new Intent();
                 intent.setClass(TOneForm.this, TOneForm.class);
 
                 startActivity(intent);
             }
         });
+        Button EntCode = (Button) findViewById(R.id.EntCode);
+        EntCode.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setClass(TOneForm.this, EnterCode.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+        pd = new ProgressDialog(TOneForm.this);
+        pd.setMessage("Дождитесь окончания загрузки...");
+/*      dataLV.add(new T1Item("Заголовок1","Подзаголовок1","Подзаголовок1-1","0"));
+        dataLV.add(new T1Item("Заголовок2","Подзаголовок2","Подзаголовок2-1","1"));
+        mMobileBCRApp.dataLV.clear();*/
+        GetT1Data();
+
+        //GetT1(mMobileBCRApp.idBarCode);
+
+        lv = (ListView) this.findViewById(R.id.listView);
 
     }
 
@@ -139,6 +121,12 @@ public class TOneForm extends Activity {
         myAB.setTitle(mMobileBCRApp.SKDOperator);
         myAB.setSubtitle(mMobileBCRApp.SKDKPP);
         myAB.setDisplayShowHomeEnabled(false);
+        if (!mMobileBCRApp.isChancel){
+        GetT1Data();}
+        else
+            mMobileBCRApp.isChancel=false;
+
+
     }
 
 
@@ -220,7 +208,7 @@ public class TOneForm extends Activity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-//            showProgress(true); *************************************************************************подменить на показ окна
+            showProgress(true);
             mPrintDataTask = new PrintScanData(mMobileBCRApp.SKDRfId);
             mPrintDataTask.execute((Void) null);
         }
@@ -240,13 +228,43 @@ public class TOneForm extends Activity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            showProgress(false);
             mPrintDataTask = null;
             // showProgress(false); ******************************************************
+            TextView DriverFio = (TextView) findViewById(R.id.drN);
+            TextView AutoNum = (TextView) findViewById(R.id.autoN);
+            TextView NumT1 = (TextView) findViewById(R.id.NumT1);
+
+            if (mMobileBCRApp.T1Num.equals("Не найдено, код неверен")) {
+                NumT1.setText(mMobileBCRApp.T1Num);
+                AutoNum.setText(" ");
+                DriverFio.setText(" ");
+            } else {
+                NumT1.setText("Номер T1:  " + mMobileBCRApp.T1Num);
+                AutoNum.setText("Номер автомобиля:  " + mMobileBCRApp.T1Auto);
+                DriverFio.setText("ФИО водителя:  " + mMobileBCRApp.T1Driver);
+            }
+
+            for (int i = 0; i < mMobileBCRApp.dataLV.size(); i++) {
+                if (mMobileBCRApp.BarCodeR.contains(";" + mMobileBCRApp.dataLV.get(i).getSubHeader1() + ";")) {
+                    mMobileBCRApp.dataLV.get(i).setChecked("1");
+                }
+            }
+
+            lv.setAdapter(new MyAdapter(TOneForm.this, mMobileBCRApp.dataLV));
+
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView parent, View view, int position,
+                                        long id) {
+                    Log.d("1", "click lv pos=" + mMobileBCRApp.dataLV.get(position).getSubHeader1() + ";");
+                }
+            });
         }
         @Override
         protected void onCancelled() {
             mPrintDataTask = null;
-            //   showProgress(false);****************************************************
+               showProgress(false);
         }
     }
 
@@ -365,4 +383,17 @@ public class TOneForm extends Activity {
         }
 //            return false;
     }
+    public void showProgress(Boolean flag) {
+        if (flag) {
+            pd = new ProgressDialog(TOneForm.this);
+            pd.setMessage("Дождитесь окончания загрузки...");
+            pd.show();
+        } else
+        {if (pd.isShowing())
+            {
+            pd.dismiss();
+            }
+         }
+    }
+
 }

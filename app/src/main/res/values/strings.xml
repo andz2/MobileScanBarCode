@@ -14,5 +14,6 @@
     <string name="title_activity_kpp">Выбор автопроезда</string>
     <string name="title_activity_tone_form">TOneForm</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_enter_code">EnterCode</string>
 
 </resources>
