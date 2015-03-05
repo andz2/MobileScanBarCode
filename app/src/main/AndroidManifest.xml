@@ -61,7 +61,10 @@
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.EnterCode"
             android:label="@string/title_activity_enter_code" >
-
+        </activity>
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.ItemInfo"
+            android:label="@string/title_activity_item_info" >
         </activity>
     </application>
 

@@ -2,6 +2,7 @@ package ru.xxmmk.mobilescanbarcode;
 
 import java.util.ArrayList;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,6 +67,9 @@ public class MyAdapter extends BaseAdapter {
         arrow.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context,ItemInfo.class);
+                context.startActivity(intent);
                 Log.d("1","click!!!!!!!! "+subHeader1.getText().toString());
             }});
 

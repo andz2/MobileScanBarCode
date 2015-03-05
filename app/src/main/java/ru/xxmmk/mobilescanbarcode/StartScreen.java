@@ -18,11 +18,14 @@ import android.os.StrictMode;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.client.android.camera.CameraManager;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -39,29 +42,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
-
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import com.google.zxing.client.android.camera.CameraConfigurationUtils;
-import com.google.zxing.client.android.camera.CameraManager;
-
-
-import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
-import android.hardware.Camera;
-import android.util.Log;
-
-import com.google.zxing.client.android.camera.CameraConfigurationUtils;
 
 
 public class StartScreen extends Activity {
 
-  /*  //flag to detect flash is on or off
+    //flag to detect flash is on or off
     private boolean isLighOn = false;
     private Camera camera;
 
-    @Override
+   /* @Override
     protected void onStop() {
         super.onStop();
 
@@ -111,8 +100,28 @@ public class StartScreen extends Activity {
                     camera.setParameters(p);
                     camera.startPreview();*/
 //*****************
-
     }
+
+
+ /*   void setTorch(Camera camera, boolean newSetting) {
+        Camera.Parameters parameters = camera.getParameters();
+        doSetTorch(parameters, newSetting, false);
+        camera.setParameters(parameters);
+    }
+
+    private void doSetTorch(Camera.Parameters parameters, boolean newSetting, boolean safeMode) {
+        CameraConfigurationUtils.setTorch(parameters, newSetting);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!safeMode && !prefs.getBoolean(PreferencesActivity.KEY_DISABLE_EXPOSURE, true)) {
+            CameraConfigurationUtils.setBestExposure(parameters, newSetting);
+        }
+    }
+    private void initializeTorch(Camera.Parameters parameters, SharedPreferences prefs, boolean safeMode) {
+        boolean currentSetting = FrontLightMode.readPref(prefs) == FrontLightMode.ON;
+        doSetTorch(parameters, currentSetting, safeMode);
+    }
+*/
+
     @Override
     protected void  onResume()
     {
@@ -400,12 +409,12 @@ public class StartScreen extends Activity {
                                           @Override
                                           public void onClick(View view) {
 
-                                                  Log.d("exit","exit");
-                                                  mMobileBCRApp.SKDStep="1";
-                                                  mMobileBCRApp.SKDKPP="Укажите КПП";
-                                                  mMobileBCRApp.SKDOperator="Кто ВЫ?";
-                                                  finish();
-                                                  System.exit(0);
+                                              Log.d("exit", "exit");
+                                              mMobileBCRApp.SKDStep = "1";
+                                              mMobileBCRApp.SKDKPP = "Укажите КПП";
+                                              mMobileBCRApp.SKDOperator = "Кто ВЫ?";
+                                              finish();
+                                              System.exit(0);
                                               // StartScreen();
 
                                           }
@@ -427,12 +436,11 @@ public class StartScreen extends Activity {
     //    Toast.makeText(this, "Сканирование штрих кодов запрещено", Toast.LENGTH_LONG).show();
             mMobileBCRApp.dataLV.clear();
 
-            cameraManager.setTorch(true);
-
             IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
             integrator.autoWide();
             integrator.initiateScan();
+     //       cameraManager.setTorch(true);
     }
 
     public void encodeBarcode(View view) {
