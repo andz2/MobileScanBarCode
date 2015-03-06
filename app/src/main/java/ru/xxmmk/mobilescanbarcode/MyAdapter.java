@@ -16,6 +16,7 @@ import android.widget.TextView;
 public class MyAdapter extends BaseAdapter {
     ArrayList<T1Item> data = new ArrayList<T1Item>();
     Context context;
+    private MobileBCRApp mMobileBCRApp;
 
     public MyAdapter(Context context, ArrayList<T1Item> arr) {
         if (arr != null) {
@@ -45,6 +46,8 @@ public class MyAdapter extends BaseAdapter {
     }
     @Override
     public View getView(int i, View someView, ViewGroup arg2) {
+        mMobileBCRApp = mMobileBCRApp.getInstance(); // в адаптере берётся так
+
         //Получение объекта inflater из контекста
         LayoutInflater inflater = LayoutInflater.from(context);
         //Если someView (View из ListView) вдруг оказался равен
@@ -71,6 +74,7 @@ public class MyAdapter extends BaseAdapter {
                 intent.setClass(context,ItemInfo.class);
                 context.startActivity(intent);
                 Log.d("1","click!!!!!!!! "+subHeader1.getText().toString());
+                mMobileBCRApp.CurrBC=subHeader1.getText().toString();
             }});
 
         if (data.get(i).isChecked.equals("1")) //(bc.contains(";"+this.data.get(i).subHeader1+";"))

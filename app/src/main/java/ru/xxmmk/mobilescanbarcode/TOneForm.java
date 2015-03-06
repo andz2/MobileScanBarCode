@@ -186,7 +186,7 @@ public class TOneForm extends Activity {
                 Toast.makeText(this, "Сканирование отменено", Toast.LENGTH_LONG).show();
             } else {
                 /*временно присваиваем штриход в строку с элементами*/
-                mMobileBCRApp.BarCodeR=mMobileBCRApp.BarCodeR+";Штрихкод: "+result.getContents()+";";
+                mMobileBCRApp.BarCodeR=mMobileBCRApp.BarCodeR+";"+result.getContents()+";";
                 Intent intent = new Intent();
                 finish();
                 /*рефрешим экран*/

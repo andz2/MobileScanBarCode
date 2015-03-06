@@ -63,6 +63,7 @@ public class MobileBCRApp extends Application {
 
         private static MobileBCRApp instance;
 
+
         public MobileBCRDB getmDbHelper() {
             Log.d(this.getLOG_TAG(), "MobileBCRApp.getmDbHelper");
             return mDbHelper;
@@ -73,6 +74,7 @@ public class MobileBCRApp extends Application {
         super.onCreate();
         mDbHelper = new MobileBCRDB(getApplicationContext());
         mDbHelper.getWritableDatabase();
+
     }
 
     @Override

@@ -179,7 +179,7 @@ public class EnterCode extends Activity {
     public void Enter ()
     {
         mMobileBCRApp.CurrBC=EntText;
-        mMobileBCRApp.BarCodeR=mMobileBCRApp.BarCodeR+";Штрихкод: "+EntText+";";
+        mMobileBCRApp.BarCodeR=mMobileBCRApp.BarCodeR+";"+EntText+";";
         finish();
     }
 }

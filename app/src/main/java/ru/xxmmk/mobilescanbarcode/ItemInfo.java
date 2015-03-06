@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class ItemInfo extends Activity {
@@ -24,6 +25,8 @@ public class ItemInfo extends Activity {
         myAB.setDisplayHomeAsUpEnabled(true);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        TextView bc = (TextView) findViewById(R.id.InfoBc);
+        bc.setText(mMobileBCRApp.CurrBC);
     }
 
 
