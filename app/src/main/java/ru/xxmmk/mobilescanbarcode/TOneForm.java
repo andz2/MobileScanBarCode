@@ -397,7 +397,7 @@ public class TOneForm extends Activity {
 //            return false;
     }
     public void showProgress(Boolean flag) {
-        if (flag) {
+      /*  if (flag) {
             pd = new ProgressDialog(TOneForm.this);
             pd.setMessage("Дождитесь окончания загрузки...");
             pd.show();
@@ -406,7 +406,28 @@ public class TOneForm extends Activity {
             {
             pd.dismiss();
             }
-         }
+         }*/
+
+        try {
+            if (flag) {
+                pd = new ProgressDialog(TOneForm.this);
+                pd.setMessage("Дождитесь окончания загрузки...");
+                pd.show();
+            } else
+            {if (pd.isShowing())
+            {
+                pd.dismiss();
+            }
+            }
+            if ((this.pd != null) && this.pd.isShowing()) {
+                this.pd.dismiss();}
+        } catch (final IllegalArgumentException e) {
+            // Handle or log or ignore
+        } catch (final Exception e) {
+            // Handle or log or ignore
+        } finally {
+            this.pd = null;
+        }
     }
 
 }
