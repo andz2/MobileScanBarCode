@@ -178,8 +178,21 @@ public class EnterCode extends Activity {
     }
     public void Enter ()
     {
-        mMobileBCRApp.CurrBC=EntText;
-        mMobileBCRApp.BarCodeR=mMobileBCRApp.BarCodeR+";"+EntText+";";
-        finish();
+        if (mMobileBCRApp.Scant1)
+        {
+            mMobileBCRApp.T1BarCode=EntText;
+
+          mMobileBCRApp.Scant1=false;
+            Intent intent = new Intent();
+                /*Уходим на другой экран*/
+            intent.setClass(EnterCode.this, TOneForm.class);
+            startActivity(intent);
+          finish();
+        }
+        else {
+            mMobileBCRApp.CurrBC = EntText;
+            mMobileBCRApp.BarCodeR = mMobileBCRApp.BarCodeR + ";" + EntText + ";";
+            finish();
+        }
     }
 }

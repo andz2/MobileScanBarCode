@@ -41,8 +41,8 @@ public class MobileBCRApp extends Application {
         public String SKDKPP="Укажите КПП";
         public String SKDStep="1";
         public String SKDOperRfId;
-        public String idBarCode = "12345";
-        public String SKDRfId;
+        public String T1BarCode = "12345"; //Т-1
+        public String SKDRfId; //карта охранника
         public Boolean    NetErr = false;
         protected String mResult= "null";
         private String mLoginURL = "http://neptun.eco.mmk.chel.su:7777/pls/apex/XXOTA_APEX.XXHR_SKD_MOBILE.login";//"https://navigator.mmk.ru/login_kis.aspx";
@@ -60,6 +60,8 @@ public class MobileBCRApp extends Application {
         public String T1Num="";  //номер Т-1
         public String T1Auto;    //номер авто
         public Boolean isChancel = false;
+
+        public boolean Scant1;
 
         private static MobileBCRApp instance;
 

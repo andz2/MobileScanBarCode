@@ -21,11 +21,9 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -384,14 +382,12 @@ public class StartScreen extends Activity {
         Scanbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //         Log.d("Go KPP","Go KPP");
-                /*Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                intent.putExtra("SCAN_MODE", "ONE_D_MODE");
-                intent.putExtra("SCAN_FORMATS", "CODE_39,CODE_93,CODE_128,DATA_MATRIX,ITF,CODABAR,EAN_13,EAN_8,UPC_A,QR_CODE");
-                startActivityForResult(intent,1);*/
-
-                scanBarcodeCustomOptions(view);
-            }
+                mMobileBCRApp.Scant1=true; //поднимаем флаг что будем сканировать Т-1
+                Intent intent = new Intent();
+                intent.setClass(StartScreen.this, SetT1.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+           }
         });
 
         KPPbutton.setOnClickListener(new View.OnClickListener() {
@@ -428,44 +424,9 @@ public class StartScreen extends Activity {
     public void scanBarcode(View view) {
         new IntentIntegrator((Activity)this).initiateScan();
     }
-
-    //запуск сканирования
-    public void scanBarcodeCustomOptions(View view) {
-    //    Toast.makeText(this, "Сканирование штрих кодов запрещено", Toast.LENGTH_LONG).show();
-            mMobileBCRApp.dataLV.clear();
-
-            IntentIntegrator integrator = new IntentIntegrator(this);
-            integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
-            integrator.autoWide();
-            integrator.initiateScan();
-     //       cameraManager.setTorch(true);
-    }
-
     public void encodeBarcode(View view) {
         new IntentIntegrator(this).shareText("Test Barcode");
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        mMobileBCRApp.idBarCode=result.getContents();
-        /*временно присваиваем штриход в самовывоз*/
-        mMobileBCRApp.SKDRfId=result.getContents();
-        if(result != null) {
-            if(result.getContents() == null) {
-                Toast.makeText(this, "Сканирование отменено", Toast.LENGTH_LONG).show();
-            } else {
-                mMobileBCRApp.BarCodeR="";
-                Intent intent = new Intent();
-                /*Уходим на другой экран*/
-                intent.setClass(StartScreen.this, TOneForm.class);
-                startActivity(intent);
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-    CameraManager getCameraManager() {
-        return cameraManager;
-    }
+
 }

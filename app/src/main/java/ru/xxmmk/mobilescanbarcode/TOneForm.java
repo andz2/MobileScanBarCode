@@ -2,7 +2,6 @@ package ru.xxmmk.mobilescanbarcode;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,7 +17,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -43,7 +41,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class TOneForm extends Activity {
@@ -222,7 +219,7 @@ public class TOneForm extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            GetT1(mMobileBCRApp.idBarCode);
+            GetT1(mMobileBCRApp.T1BarCode);
             return true;
         }
 
