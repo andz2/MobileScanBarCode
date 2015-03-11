@@ -17,5 +17,11 @@
     <string name="title_activity_enter_code">EnterCode</string>
     <string name="title_activity_item_info">ItemInfo</string>
     <string name="barCode">Штрихкод</string>
+    <string name="Nm">Наименование ТМЦ</string>
+    <string name="PartNum">Номер части</string>
+    <string name="PackNum">Номер пачки</string>
+    <string name="Weight">Вес</string>
+    <string name="PlavkN">Номер плавки</string>
+    <string name="title_activity_set_t1">SetT1</string>
 
 </resources>

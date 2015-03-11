@@ -7,9 +7,99 @@
     tools:context="ru.xxmmk.mobilescanbarcode.ItemInfo"
     android:id="@+id/layout">
 
-    <TextView android:text="@string/barCode" android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24dp"
-        android:id="@+id/InfoBc" />
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/ItemBk"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Информация о ТМЦ"
+                android:id="@+id/textView3"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="34dp"
+                android:layout_marginBottom="20dp" />
+
+            <TextView android:text="@string/barCode" android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:textSize="24dp"
+                android:id="@+id/ItemBc"
+                android:paddingBottom="10dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/btn_inact" />
+
+            <TextView
+                android:text="@string/Nm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"
+                android:id="@+id/ItemNm"
+                android:paddingBottom="10dp"
+                android:singleLine="false"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/btn_inact" />
+            <TextView
+                android:text="@string/PlavkN"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:textSize="24dp"
+                android:id="@+id/ItemPlavkN"
+                android:paddingBottom="10dp"
+                android:singleLine="false"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/btn_inact" />
+            <TextView
+                android:text="@string/PartNum"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:textSize="24dp"
+                android:id="@+id/ItemPartNum"
+                android:paddingBottom="10dp"
+                android:singleLine="false"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/btn_inact" />
+            <TextView
+                android:text="@string/PackNum"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:textSize="24dp"
+                android:id="@+id/ItemPackNum"
+                android:paddingBottom="10dp"
+                android:singleLine="false"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/btn_inact" />
+            <TextView
+                android:text="@string/Weight"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:textSize="24dp"
+                android:id="@+id/ItemWeight"
+                android:paddingBottom="10dp"
+                android:singleLine="false"
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/btn_inact" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Назад"
+        android:id="@+id/ItemBk"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_bk_state" />
 
 </RelativeLayout>

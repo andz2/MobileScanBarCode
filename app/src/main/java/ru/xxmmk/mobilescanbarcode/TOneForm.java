@@ -230,36 +230,44 @@ public class TOneForm extends Activity {
         protected void onPostExecute(final Boolean success) {
             showProgress(false);
             mPrintDataTask = null;
-            // showProgress(false); ******************************************************
-            TextView DriverFio = (TextView) findViewById(R.id.drN);
-            TextView AutoNum = (TextView) findViewById(R.id.autoN);
-            TextView NumT1 = (TextView) findViewById(R.id.NumT1);
-
-            if (mMobileBCRApp.T1Num.equals("Не найдено, код неверен")) {
-                NumT1.setText(mMobileBCRApp.T1Num);
-                AutoNum.setText(" ");
-                DriverFio.setText(" ");
-            } else {
-                NumT1.setText("Номер T1:  " + mMobileBCRApp.T1Num);
-                AutoNum.setText("Номер автомобиля:  " + mMobileBCRApp.T1Auto);
-                DriverFio.setText("ФИО водителя:  " + mMobileBCRApp.T1Driver);
+            if (mMobileBCRApp.NetErr == true) {
+                finish();
+                Intent intent = new Intent();
+                intent.setClass(TOneForm.this, NetError.class);
+                startActivity(intent);
             }
+            else {
+                // showProgress(false); ******************************************************
+                TextView DriverFio = (TextView) findViewById(R.id.drN);
+                TextView AutoNum = (TextView) findViewById(R.id.autoN);
+                TextView NumT1 = (TextView) findViewById(R.id.NumT1);
 
-            for (int i = 0; i < mMobileBCRApp.dataLV.size(); i++) {
-                if (mMobileBCRApp.BarCodeR.contains(";" + mMobileBCRApp.dataLV.get(i).getSubHeader1() + ";")) {
-                    mMobileBCRApp.dataLV.get(i).setChecked("1");
+                if (mMobileBCRApp.T1Num.equals("Не найдено, код неверен")) {
+                    NumT1.setText(mMobileBCRApp.T1Num);
+                    AutoNum.setText(" ");
+                    DriverFio.setText(" ");
+                } else {
+                    NumT1.setText("Номер T1:  " + mMobileBCRApp.T1Num);
+                    AutoNum.setText("Номер автомобиля:  " + mMobileBCRApp.T1Auto);
+                    DriverFio.setText("ФИО водителя:  " + mMobileBCRApp.T1Driver);
                 }
+
+                for (int i = 0; i < mMobileBCRApp.dataLV.size(); i++) {
+                    if (mMobileBCRApp.BarCodeR.contains(";" + mMobileBCRApp.dataLV.get(i).getSubHeader1() + ";")) {
+                        mMobileBCRApp.dataLV.get(i).setChecked("1");
+                    }
+                }
+
+                lv.setAdapter(new MyAdapter(TOneForm.this, mMobileBCRApp.dataLV));
+
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView parent, View view, int position,
+                                            long id) {
+                        Log.d("1", "click lv pos=" + mMobileBCRApp.dataLV.get(position).getSubHeader1() + ";");
+                    }
+                });
             }
-
-            lv.setAdapter(new MyAdapter(TOneForm.this, mMobileBCRApp.dataLV));
-
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView parent, View view, int position,
-                                        long id) {
-                    Log.d("1", "click lv pos=" + mMobileBCRApp.dataLV.get(position).getSubHeader1() + ";");
-                }
-            });
         }
         @Override
         protected void onCancelled() {
@@ -352,7 +360,15 @@ public class TOneForm extends Activity {
                         JSONArray jsonArray = new JSONArray(builder.toString());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            mMobileBCRApp.dataLV.add(new T1Item(jsonObject.getString("PRODUCTNAME"), jsonObject.getString("CERNNUM"), jsonObject.getString("BARCODE"), "0"));
+                            mMobileBCRApp.dataLV.add(new T1Item(jsonObject.getString("PRODUCTNAME")
+                                                                , jsonObject.getString("CERNNUM")
+                                                                , jsonObject.getString("BARCODE")
+                                                                , "0"
+                                                                , jsonObject.getString("PLAVKNUM")
+                                                                , jsonObject.getString("PARTNUM")
+                                                                , jsonObject.getString("PACKNUM")
+                                                                , jsonObject.getString("WEIGHTC")
+                                                                , jsonObject.getString("LONGNAME")));
                             //   data.add(jsonObject.getString("KPP_NAME"));
                             vStatus = true;
                         }

@@ -11,20 +11,31 @@ public class T1Item {
     /**
      * Подзаголовок
      */
-    String subHeader;
-    String subHeader1;
-    String isChecked;
+    String subHeader;   //наименование
+    String subHeader1;  //сертификат
+    String isChecked;   //флаг показывающий провереное или нет
+    String PlavkN;      //номер плавки
+    String PartNum;     //номер партии
+    String PackNum;     //номер упаковки
+    String Weight;      //вес
+    String LongName;    //наименование полное
+    //String CertNum;
     /**
      * Конструктор создает новый элемент в соответствии с передаваемыми
      * параметрами:
      * @param h - заголовок элемента
      * @param s - подзаголовок
      */
-    T1Item(String h, String s,  String s1, String s2){
-        this.header=h;
-        this.subHeader=s;
-        this.subHeader1=s1;
-        this.isChecked=s2;
+    T1Item(String h, String s,  String s1, String s2,String s3 ,String s4,String s5,String s6,String s7){
+        this.header     =h;
+        this.subHeader  =s;
+        this.subHeader1 =s1;
+        this.isChecked  =s2;
+        this.PlavkN     =s3;
+        this.PartNum    =s4;
+        this.PackNum    =s5;
+        this.Weight     =s6;
+        this.LongName     =s7;
 
     }
 
@@ -54,4 +65,35 @@ public class T1Item {
         this.isChecked = isChecked;
     }
 
+
+    public String getPlavkN() {
+        return PlavkN;
+    }
+    public void setPlavkN(String PlavkN) {
+        this.PlavkN = PlavkN;
+    }
+    public String getPartNum() {
+        return PartNum;
+    }
+    public void setPartNum(String PartNum) {
+        this.PartNum = PartNum;
+    }
+    public String getPackNum() {
+        return PackNum;
+    }
+    public void setPackNum(String PackNum) {
+        this.PackNum = PackNum;
+    }
+    public String getWeight() {
+        return Weight;
+    }
+    public void setWeight(String Weight) {
+        this.Weight = Weight;
+    }
+    public String getLongName() {
+        return LongName;
+    }
+    public void setLongName(String LongName) {
+        this.LongName = LongName;
+    }
 }

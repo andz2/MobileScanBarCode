@@ -408,8 +408,6 @@ public class StartScreen extends Activity {
         Exitbutton.setOnClickListener(new View.OnClickListener() {
                                           @Override
                                           public void onClick(View view) {
-
-                                              Log.d("exit", "exit");
                                               mMobileBCRApp.SKDStep = "1";
                                               mMobileBCRApp.SKDKPP = "Укажите КПП";
                                               mMobileBCRApp.SKDOperator = "Кто ВЫ?";
