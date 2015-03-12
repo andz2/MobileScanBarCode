@@ -52,13 +52,14 @@ public class TOneForm extends Activity {
     ArrayList<T1Item> dataLV = new ArrayList<T1Item>();
     private PrintScanData mPrintDataTask = null;
     ProgressDialog pd;
+    String ReadCode; //локальная переменная штрих кода
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tone_form);
         mMobileBCRApp = ((MobileBCRApp) this.getApplication());
-
+        mMobileBCRApp.Scant1=false;
         ActionBar myAB = getActionBar();
         myAB.setTitle(mMobileBCRApp.SKDOperator);
         myAB.setSubtitle(mMobileBCRApp.SKDKPP);
@@ -184,6 +185,7 @@ public class TOneForm extends Activity {
             } else {
                 /*временно присваиваем штриход в строку с элементами*/
                 mMobileBCRApp.BarCodeR=mMobileBCRApp.BarCodeR+";"+result.getContents()+";";
+            //    ReadCode=result.getContents();
                 Intent intent = new Intent();
                 finish();
                 /*рефрешим экран*/
@@ -222,7 +224,7 @@ public class TOneForm extends Activity {
             GetT1(mMobileBCRApp.T1BarCode);
             return true;
         }
-
+//обработка результата сканирования/ручного ввода
         @Override
         protected void onPostExecute(final Boolean success) {
             showProgress(false);
@@ -248,12 +250,19 @@ public class TOneForm extends Activity {
                     AutoNum.setText("Номер автомобиля:  " + mMobileBCRApp.T1Auto);
                     DriverFio.setText("ФИО водителя:  " + mMobileBCRApp.T1Driver);
                 }
-
+                String allCode = "";
+//пробегаемся по массиву итемов и записываем найденный код
                 for (int i = 0; i < mMobileBCRApp.dataLV.size(); i++) {
+                    allCode=allCode+ ";" +  mMobileBCRApp.dataLV.get(i).getSubHeader1()+ ";";
                     if (mMobileBCRApp.BarCodeR.contains(";" + mMobileBCRApp.dataLV.get(i).getSubHeader1() + ";")) {
                         mMobileBCRApp.dataLV.get(i).setChecked("1");
                     }
                 }
+//добавление отсутсвующих в списке
+               /* if (!allCode.contains(";" + ReadCode + ";") && mMobileBCRApp.BarCodeR.length()>=1)
+                {
+                    mMobileBCRApp.dataLV.add(new T1Item("Отсутствует в Т-1","Неверный ШК",ReadCode,"2","","","","",""));
+                }*/
 
                 lv.setAdapter(new MyAdapter(TOneForm.this, mMobileBCRApp.dataLV));
 

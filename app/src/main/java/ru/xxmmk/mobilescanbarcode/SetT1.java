@@ -50,6 +50,7 @@ public class SetT1 extends Activity {
                    scanBarcodeCustomOptions(v);
             }
         });
+        mMobileBCRApp.dataLV.clear(); //очистим массив с элементами Т-1
     }
 
     //запуск сканирования

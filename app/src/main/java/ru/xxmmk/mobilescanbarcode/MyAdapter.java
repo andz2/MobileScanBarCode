@@ -85,6 +85,12 @@ public class MyAdapter extends BaseAdapter {
             subHeader.setTextColor(Color.parseColor("white"));
             subHeader1.setTextColor(Color.parseColor("white"));
         }
+        else if (data.get(i).isChecked.equals("2"))
+        {
+            someView.setBackgroundColor(Color.RED);
+            subHeader.setTextColor(Color.parseColor("white"));
+            subHeader1.setTextColor(Color.parseColor("white"));
+        }
         else
         {
             someView.setBackgroundColor(Color.WHITE);

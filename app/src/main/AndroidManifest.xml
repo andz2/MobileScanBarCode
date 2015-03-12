@@ -71,6 +71,10 @@
             android:label="@string/title_activity_set_t1"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
         </activity>
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.ResultT1"
+            android:label="@string/title_activity_result_t1" >
+        </activity>
     </application>
 
 </manifest>

@@ -23,5 +23,9 @@
     <string name="Weight">Вес</string>
     <string name="PlavkN">Номер плавки</string>
     <string name="title_activity_set_t1">SetT1</string>
+    <string name="title_activity_result_t1">ResultT1</string>
+    <string name="no_all_item">Имеются необработанные коды</string>
+    <string name="incorrect_item">Имеются коды отсутствующие в Т-1</string>
+    <string name="all_ok_item">Все ТМЦ успешно отсканированы</string>
 
 </resources>
