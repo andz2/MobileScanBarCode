@@ -7,4 +7,71 @@
     tools:context="ru.xxmmk.mobilescanbarcode.ResultT1">
 
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/ResultCh"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Результат"
+            android:id="@+id/ResultText"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:textSize="25dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="0.17" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Разрешить выезд"
+            android:id="@+id/button"
+            android:textSize="25dp"
+            android:background="@drawable/btn_bk_state"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Запретить выезд"
+            android:id="@+id/button10"
+            android:textSize="25dp"
+            android:background="@drawable/btn_scan_state"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="комментарии"
+            android:id="@+id/ResultComment"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Отмена"
+        android:id="@+id/ResultCh"
+        android:textSize="25dp"
+        android:background="#999999"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

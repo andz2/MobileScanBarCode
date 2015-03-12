@@ -80,9 +80,9 @@ public class TOneForm extends Activity {
                 .create();
         fabButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                finish();
                 Intent intent = new Intent();
-                intent.setClass(TOneForm.this, TOneForm.class);
+                intent.setClass(TOneForm.this, ResultT1.class);
 
                 startActivity(intent);
             }
