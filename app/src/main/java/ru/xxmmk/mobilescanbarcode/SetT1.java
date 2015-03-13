@@ -57,7 +57,6 @@ public class SetT1 extends Activity {
     public void scanBarcodeCustomOptions(View view) {
         //    Toast.makeText(this, "Сканирование штрих кодов запрещено", Toast.LENGTH_LONG).show();
         mMobileBCRApp.dataLV.clear();
-
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
         integrator.autoWide();
@@ -108,4 +107,5 @@ public class SetT1 extends Activity {
     CameraManager getCameraManager() {
         return cameraManager;
     }
+
 }

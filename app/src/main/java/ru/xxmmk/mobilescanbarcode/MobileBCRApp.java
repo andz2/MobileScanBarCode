@@ -38,7 +38,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class MobileBCRApp extends Application {
         public String SKDOperator="Кто ВЫ?";
-        public String SKDKPP="Укажите КПП";
+        public String SKDKPP="Укажите автопроезд";
         public String SKDStep="1";
         public String SKDOperRfId;
         public String T1BarCode = "12345"; //Т-1

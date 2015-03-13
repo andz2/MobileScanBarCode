@@ -97,6 +97,29 @@ public class ResultT1 extends Activity {
                 startActivity(intent);
             }
         });
+        Button resOk =(Button) findViewById(R.id.ResultOk);
+        resOk.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mMobileBCRApp.dataLV.clear();
+                mMobileBCRApp.BarCodeR="";
+                finish();
+                Intent intent = new Intent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.setClass(ResultT1.this, SetT1.class);
+                startActivity(intent);
+            }
+        });
+        Button resErr =(Button) findViewById(R.id.ResultErr);
+        resErr.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mMobileBCRApp.dataLV.clear();
+                mMobileBCRApp.BarCodeR="";
+                finish();
+                Intent intent = new Intent();
+                intent.setClass(ResultT1.this, SetT1.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

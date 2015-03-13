@@ -3,6 +3,7 @@ package ru.xxmmk.mobilescanbarcode;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -63,6 +64,7 @@ public class StartScreen extends Activity {
     private UserLoginTask mAuthTask = null;
     Context context;
     private CameraManager cameraManager;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,8 @@ public class StartScreen extends Activity {
                     camera.setParameters(p);
                     camera.startPreview();*/
 //*****************
+        pd = new ProgressDialog(StartScreen.this);
+        pd.setMessage("Дождитесь окончания загрузки...");
     }
 
 
@@ -166,7 +170,7 @@ public class StartScreen extends Activity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-//            showProgress(true); *************************************************************************подменить на показ окна
+            showProgress(true);//подменить на показ окна когда нибудь
             mAuthTask = new UserLoginTask(mMobileBCRApp.SKDRfId);
             mAuthTask.execute((Void) null);
         }
@@ -287,7 +291,7 @@ public class StartScreen extends Activity {
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            // showProgress(false); ******************************************************заменим потом
+             showProgress(false);//
 
             if (success) {
                 Log.d("Is OK","Is OK");
@@ -428,5 +432,25 @@ public class StartScreen extends Activity {
         new IntentIntegrator(this).shareText("Test Barcode");
     }
 
-
+    public void showProgress(Boolean flag) {
+            if (flag) {
+                pd = new ProgressDialog(StartScreen.this);
+                pd.setMessage("Дождитесь окончания загрузки...");
+                pd.show();
+            } else
+            {
+                try
+                {
+                if ((this.pd != null) && this.pd.isShowing()) {
+                    this.pd.dismiss();
+                }
+                } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+                } catch (final Exception e) {
+                    // Handle or log or ignore
+                } finally {
+                this.pd = null;
+                 }
+            }
+    }
 }
