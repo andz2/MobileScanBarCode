@@ -1,8 +1,6 @@
 package ru.xxmmk.mobilescanbarcode;
 
-/**
- * Created by zemljanskij111614 on 20.02.2015.
- */
+
 public class T1Item {
     /**
      * Заголовок

@@ -9,9 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by zemljanskij111614 on 06.02.2015.
- */
+
 public class MobileBCRDB extends SQLiteOpenHelper {
     Context mContext;
     private MobileBCRApp mMobileSKDApp;
