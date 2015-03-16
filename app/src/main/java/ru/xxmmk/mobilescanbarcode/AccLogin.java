@@ -50,7 +50,7 @@ public class AccLogin extends Activity /*implements LoaderCallbacks<Cursor>*/{
         ImageView imgView = (ImageView) findViewById(R.id.photoim);
         String imageUrl ="http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxhr_skd_mobile.skd_display_image?rfid="+ mMobileBCRApp.SKDOperRfId +"&p_mode=Y";  //"http://i.imgur.com/CQzlM.jpg";// "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxhr_skd_mobile.skd_display_image?rfid=1&p_mode=Y";
         Log.d("Photo","http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxhr_skd_mobile.skd_display_image?rfid="+ mMobileBCRApp.SKDOperRfId +"&p_mode=Y");
-        imgView.setImageBitmap(getBitmapFromURL(imageUrl));
+//        imgView.setImageBitmap(getBitmapFromURL(imageUrl)); //на медленных соединениях тупит
 
     }
     public static Bitmap getBitmapFromURL(String src) {

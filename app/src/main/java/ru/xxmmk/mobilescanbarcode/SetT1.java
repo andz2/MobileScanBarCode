@@ -23,6 +23,10 @@ public class SetT1 extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_t1);
         mMobileBCRApp = ((MobileBCRApp) this.getApplication());
+
+        if (mMobileBCRApp.TwoActFlag)
+        {finish();
+        mMobileBCRApp.TwoActFlag=false;}
         Button Bk = (Button) findViewById(R.id.SetT1Ch);
         Bk.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){

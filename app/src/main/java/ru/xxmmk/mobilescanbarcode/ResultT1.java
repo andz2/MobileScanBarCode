@@ -103,6 +103,7 @@ public class ResultT1 extends Activity {
                 mMobileBCRApp.dataLV.clear();
                 mMobileBCRApp.BarCodeR="";
                 finish();
+                mMobileBCRApp.TwoActFlag=true;
                 Intent intent = new Intent();
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 intent.setClass(ResultT1.this, SetT1.class);
@@ -115,6 +116,7 @@ public class ResultT1 extends Activity {
                 mMobileBCRApp.dataLV.clear();
                 mMobileBCRApp.BarCodeR="";
                 finish();
+                mMobileBCRApp.TwoActFlag=true;
                 Intent intent = new Intent();
                 intent.setClass(ResultT1.this, SetT1.class);
                 startActivity(intent);

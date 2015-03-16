@@ -387,6 +387,7 @@ public class StartScreen extends Activity {
             @Override
             public void onClick(View view) {
                 mMobileBCRApp.Scant1=true; //поднимаем флаг что будем сканировать Т-1
+                mMobileBCRApp.TwoActFlag=false;
                 Intent intent = new Intent();
                 intent.setClass(StartScreen.this, SetT1.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

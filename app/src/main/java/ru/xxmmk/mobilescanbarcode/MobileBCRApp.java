@@ -60,7 +60,7 @@ public class MobileBCRApp extends Application {
         public String T1Num="";  //номер Т-1
         public String T1Auto;    //номер авто
         public Boolean isChancel = false;
-
+        public Boolean TwoActFlag =false; //флаг закрытия повторной активности
         public boolean Scant1;
 
         private static MobileBCRApp instance;
