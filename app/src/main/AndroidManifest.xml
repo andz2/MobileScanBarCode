@@ -11,7 +11,6 @@
         android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"
         android:protectionLevel="normal" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
@@ -19,7 +18,6 @@
     <uses-feature
         android:name="android.hardware.camera.flash"
         android:required="true" />
-
     <application
         android:name="ru.xxmmk.mobilescanbarcode.MobileBCRApp"
         android:allowBackup="true"
@@ -31,7 +29,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -56,7 +53,12 @@
         </activity>
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.TOneForm"
-            android:label="@string/title_activity_tone_form" >
+            android:label="@string/title_activity_tone_form"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="ru.xxmmk.mobilescanbarcode.ITEM"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.EnterCode"
@@ -69,7 +71,12 @@
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.SetT1"
             android:label="@string/title_activity_set_t1"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="ru.xxmmk.mobilescanbarcode.T1"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.ResultT1"

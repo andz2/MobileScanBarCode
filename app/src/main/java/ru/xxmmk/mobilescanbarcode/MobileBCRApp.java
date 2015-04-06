@@ -97,7 +97,11 @@ public class MobileBCRApp extends Application {
     public String getT1ItemDataURL(String T1N) {
         return this.URLListCargoItems+"?p_t1n="+T1N+"";
     }
-
+    public void ClearTmpData ()
+    {
+        dataLV.clear(); //очистим массив с элементами Т-1
+        CurrBC = "-1";
+    }
     public static MobileBCRApp getInstance() {
         return instance;
     }

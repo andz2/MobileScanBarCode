@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -22,6 +23,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -48,8 +50,7 @@ public class StartScreen extends Activity {
     //flag to detect flash is on or off
     private boolean isLighOn = false;
     private Camera camera;
-
-   /* @Override
+    /* @Override
     protected void onStop() {
         super.onStop();
 
@@ -91,7 +92,7 @@ public class StartScreen extends Activity {
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        StartScreen ();
+        StartScreen();
 
 //*****************
  /*       camera = Camera.open();
@@ -102,6 +103,21 @@ public class StartScreen extends Activity {
 //*****************
         pd = new ProgressDialog(StartScreen.this);
         pd.setMessage("Дождитесь окончания загрузки...");
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("ACTION");
+     //   filter.addAction("SOME_OTHER_ACTION");
+
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //do something based on the intent's action
+                String code = intent.getExtras().getString("com.motorolasolutions.emdk.datawedge.data_string");
+                Log.d("12345","12345");
+                Log.d(code,code);
+            }
+        };
+        registerReceiver(receiver, filter);
     }
 
 
@@ -129,6 +145,29 @@ public class StartScreen extends Activity {
     {
         super.onResume();
         // Log.d("Resume","Resume");
+
+/*        // first send the intent to enumerate the available scanners on the device
+
+// define action string
+
+        String enumerateScanners = "com.motorolasolutions.emdk.datawedge.api.ACTION_ENUMERATESCANNERS";
+// create the intent
+        Intent i = new Intent();
+// set the action to perform
+        i.setAction(enumerateScanners);
+// send the intent to DataWedge
+        StartScreen.this.sendBroadcast(i);
+// now we need to be able to receive the enumerate list of available scanners
+        String enumeratedList = "com.motorolasolutions.emdk.datawedge.api.ACTION_ENUMERATEDSCANNERLIST";
+        String KEY_ENUMERATEDSCANNERLIST = "DataWedgeAPI_KEY_ENUMERATEDSCANNERLIST";
+// Create a filter for the broadcast intent
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(enumeratedList);
+        registerReceiver(myBroadcastReceiver, filter);
+// now we need a broadcast receiver*/
+
+
+
         enableForegroundMode();
         ActionBar myAB = getActionBar();
         myAB.setTitle(mMobileBCRApp.SKDOperator);
@@ -136,6 +175,7 @@ public class StartScreen extends Activity {
         myAB.setDisplayShowHomeEnabled(false);
         cameraManager = new CameraManager(getApplication());
         StartScreen ();
+
 
     }
     @Override
@@ -454,4 +494,19 @@ public class StartScreen extends Activity {
                  }
             }
     }
+
+
+ /*   private BroadcastReceiver myBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+                Log.d("12345","!!!!!!!!!!!");
+            //if (action.equals(enumeratedList)) {
+                //Bundle b = intent.getExtras();
+          //      String[] scanner_list = b.getStringArray(KEY_ENUMERATEDSCANNERLIST);
+        //    }
+
+        }
+
+    };*/
 }

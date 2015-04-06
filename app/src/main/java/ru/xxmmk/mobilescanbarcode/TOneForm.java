@@ -54,6 +54,42 @@ public class TOneForm extends Activity {
     ProgressDialog pd;
     String ReadCode; //локальная переменная штрих кода
 
+    // Tag used for logging errors
+    private static final String TAG = SetT1.class.getSimpleName();
+    // Let's define some intent strings
+    // This intent string contains the source of the data as a string
+    private static final String SOURCE_TAG = "com.motorolasolutions.emdk.datawedge.source";
+    // This intent string contains the barcode symbology as a string
+    private static final String LABEL_TYPE_TAG = "com.motorolasolutions.emdk.datawedge.label_type";
+    // This intent string contains the barcode data as a byte array list
+    private static final String DECODE_DATA_TAG = "com.motorolasolutions.emdk.datawedge.decode_data";
+    // This intent string contains the captured data as a string
+    // (in the case of MSR this data string contains a concatenation of the track data)
+    private static final String DATA_STRING_TAG = "com.motorolasolutions.emdk.datawedge.data_string";
+    // Let's define the MSR intent strings (in case we want to use these in the future)
+    private static final String MSR_DATA_TAG = "com.motorolasolutions.emdk.datawedge.msr_data";
+    private static final String MSR_TRACK1_TAG = "com.motorolasolutions.emdk.datawedge.msr_track1";
+    private static final String MSR_TRACK2_TAG = "com.motorolasolutions.emdk.datawedge.msr_track2";
+    private static final String MSR_TRACK3_TAG = "com.motorolasolutions.emdk.datawedge.msr_track3";
+    private static final String MSR_TRACK1_STATUS_TAG = "com.motorolasolutions.emdk.datawedge.msr_track1_status";
+    private static final String MSR_TRACK2_STATUS_TAG = "com.motorolasolutions.emdk.datawedge.msr_track2_status";
+    private static final String MSR_TRACK3_STATUS_TAG = "com.motorolasolutions.emdk.datawedge.msr_track3_status";
+    private static final String MSR_TRACK1_ENCRYPTED_TAG = "com.motorolasolutions.emdk.datawedge.msr_track1_encrypted";
+    private static final String MSR_TRACK2_ENCRYPTED_TAG = "com.motorolasolutions.emdk.datawedge.msr_track2_encrypted";
+    private static final String MSR_TRACK3_ENCRYPTED_TAG = "com.motorolasolutions.emdk.datawedge.msr_track3_encrypted";
+    private static final String MSR_TRACK1_HASHED_TAG = "com.motorolasolutions.emdk.datawedge.msr_track1_hashed";
+    private static final String MSR_TRACK2_HASHED_TAG = "com.motorolasolutions.emdk.datawedge.msr_track2_hashed";
+    private static final String MSR_TRACK3_HASHED_TAG = "com.motorolasolutions.emdk.datawedge.msr_track3_hashed";
+
+    // Let's define the API intent strings for the soft scan trigger
+    private static final String ACTION_SOFTSCANTRIGGER = "com.motorolasolutions.emdk.datawedge.api.ACTION_SOFTSCANTRIGGER";
+    private static final String EXTRA_PARAM = "com.motorolasolutions.emdk.datawedge.api.EXTRA_PARAMETER";
+    private static final String DWAPI_START_SCANNING = "START_SCANNING";
+    private static final String DWAPI_STOP_SCANNING = "STOP_SCANNING";
+    private static final String DWAPI_TOGGLE_SCANNING = "TOGGLE_SCANNING";
+
+    private static String ourIntentAction = "ru.xxmmk.mobilescanbarcode.ITEM";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +137,7 @@ public class TOneForm extends Activity {
 /*      dataLV.add(new T1Item("Заголовок1","Подзаголовок1","Подзаголовок1-1","0"));
         dataLV.add(new T1Item("Заголовок2","Подзаголовок2","Подзаголовок2-1","1"));
         mMobileBCRApp.dataLV.clear();*/
-        GetT1Data();
-
+            GetT1Data();
         //GetT1(mMobileBCRApp.idBarCode);
 
         lv = (ListView) this.findViewById(R.id.listView);
@@ -120,7 +155,7 @@ public class TOneForm extends Activity {
         myAB.setSubtitle(mMobileBCRApp.SKDKPP);
         myAB.setDisplayShowHomeEnabled(false);
         if (!mMobileBCRApp.isChancel){
-        GetT1Data();}
+                GetT1Data();}
         else
             mMobileBCRApp.isChancel=false;
 
@@ -130,7 +165,8 @@ public class TOneForm extends Activity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        // Log.d("Intent", "Считываем nfc");
+        // We need to handle any incoming intents, so let override the onNewIntent method
+            handleDecodeData(intent);
     }
 
     public void enableForegroundMode() {
@@ -185,6 +221,9 @@ public class TOneForm extends Activity {
             } else {
                 /*временно присваиваем штриход в строку с элементами*/
                 mMobileBCRApp.BarCodeR=mMobileBCRApp.BarCodeR+";"+result.getContents()+";";
+;
+                mMobileBCRApp.CurrBC=result.getContents();
+
             //    ReadCode=result.getContents();
                 Intent intent = new Intent();
                 finish();
@@ -221,7 +260,9 @@ public class TOneForm extends Activity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            GetT1(mMobileBCRApp.T1BarCode);
+            if (mMobileBCRApp.dataLV.isEmpty()) {
+                GetT1(mMobileBCRApp.T1BarCode);
+            }
             return true;
         }
 //обработка результата сканирования/ручного ввода
@@ -255,14 +296,16 @@ public class TOneForm extends Activity {
                 for (int i = 0; i < mMobileBCRApp.dataLV.size(); i++) {
                     allCode=allCode+ ";" +  mMobileBCRApp.dataLV.get(i).getSubHeader1()+ ";";
                     if (mMobileBCRApp.BarCodeR.contains(";" + mMobileBCRApp.dataLV.get(i).getSubHeader1() + ";")) {
-                        mMobileBCRApp.dataLV.get(i).setChecked("1");
+                        if (mMobileBCRApp.dataLV.get(i).getChecked()!="2") //непраильные шк
+                        {mMobileBCRApp.dataLV.get(i).setChecked("1");}
                     }
                 }
 //добавление отсутсвующих в списке
-               /* if (!allCode.contains(";" + ReadCode + ";") && mMobileBCRApp.BarCodeR.length()>=1)
+                ReadCode=mMobileBCRApp.CurrBC;
+                if (!allCode.contains(";" + ReadCode + ";") && mMobileBCRApp.BarCodeR.length()>=1&&ReadCode!="-1")
                 {
                     mMobileBCRApp.dataLV.add(new T1Item("Отсутствует в Т-1","Неверный ШК",ReadCode,"2","","","","",""));
-                }*/
+                }
 
                 lv.setAdapter(new MyAdapter(TOneForm.this, mMobileBCRApp.dataLV));
 
@@ -283,67 +326,69 @@ public class TOneForm extends Activity {
     }
 
     public void GetT1(String T1BC) {
-        mMobileBCRApp.dataLV.clear();
-        Boolean vStatus = false;
-        mMobileBCRApp.NetErr = false;
-        try {
-            StringBuilder builder = new StringBuilder();
-            HttpClient client = mMobileBCRApp.getNewHttpClient(); //new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(mMobileBCRApp.getT1HeaderDataURL(T1BC));
+
+
+            mMobileBCRApp.dataLV.clear();
+            Boolean vStatus = false;
+            mMobileBCRApp.NetErr = false;
             try {
-                HttpResponse response = client.execute(httpGet);
-                StatusLine statusLine = response.getStatusLine();
-                int statusCode = statusLine.getStatusCode();
-                if (statusCode == 200) {
-                    HttpEntity entity = response.getEntity();
-                    InputStream content = entity.getContent();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        builder.append(line);
-                    }
-                    try {
-                        //Toast.makeText(this.getBaseContext(), builder.toString(), Toast.LENGTH_LONG).show();
-                        JSONArray jsonArray = new JSONArray(builder.toString());
-                        mMobileBCRApp.T1Driver = "Не найдено, код неверен";
-                        mMobileBCRApp.T1Auto = "Не найдено, код неверен";
-                        mMobileBCRApp.T1Header = "Не найдено, код неверен";
-                        mMobileBCRApp.T1Num = "Не найдено, код неверен";
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            mMobileBCRApp.T1Driver = jsonObject.getString("FIODRIVER");
-                            mMobileBCRApp.T1Auto = jsonObject.getString("NUMAUTO");
-                            mMobileBCRApp.T1Header = jsonObject.getString("DELIVNUM");
-                            mMobileBCRApp.T1Num = jsonObject.getString("T1NUM");
-                            //mMobileBCRApp.dataLV.add(new T1Item (jsonObject.getString("PRODUCTNAME"),jsonObject.getString("CERNNUM"),jsonObject.getString("BARCODE"),"0"));
-                            vStatus = true;
+                StringBuilder builder = new StringBuilder();
+                HttpClient client = mMobileBCRApp.getNewHttpClient(); //new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet(mMobileBCRApp.getT1HeaderDataURL(T1BC));
+                try {
+                    HttpResponse response = client.execute(httpGet);
+                    StatusLine statusLine = response.getStatusLine();
+                    int statusCode = statusLine.getStatusCode();
+                    if (statusCode == 200) {
+                        HttpEntity entity = response.getEntity();
+                        InputStream content = entity.getContent();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            builder.append(line);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        try {
+                            //Toast.makeText(this.getBaseContext(), builder.toString(), Toast.LENGTH_LONG).show();
+                            JSONArray jsonArray = new JSONArray(builder.toString());
+                            mMobileBCRApp.T1Driver = "Не найдено, код неверен";
+                            mMobileBCRApp.T1Auto = "Не найдено, код неверен";
+                            mMobileBCRApp.T1Header = "Не найдено, код неверен";
+                            mMobileBCRApp.T1Num = "Не найдено, код неверен";
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                mMobileBCRApp.T1Driver = jsonObject.getString("FIODRIVER");
+                                mMobileBCRApp.T1Auto = jsonObject.getString("NUMAUTO");
+                                mMobileBCRApp.T1Header = jsonObject.getString("DELIVNUM");
+                                mMobileBCRApp.T1Num = jsonObject.getString("T1NUM");
+                                //mMobileBCRApp.dataLV.add(new T1Item (jsonObject.getString("PRODUCTNAME"),jsonObject.getString("CERNNUM"),jsonObject.getString("BARCODE"),"0"));
+                                vStatus = true;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Log.d("not ok", "not ok");
                     }
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    mMobileBCRApp.NetErr = true;
+                }
+                Thread.sleep(10);
+                if (vStatus) {
+//                        return true;
+                    Log.d("ok", "ok");
                 } else {
                     Log.d("not ok", "not ok");
-                }
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-                mMobileBCRApp.NetErr = true;
-            }
-            Thread.sleep(10);
-            if (vStatus) {
-//                        return true;
-                Log.d("ok", "ok");
-            } else {
-                Log.d("not ok", "not ok");
 //                        return false;
-            }
+                }
 
-        } catch (InterruptedException e) {
-            Log.d("not ok", "not ok");
+            } catch (InterruptedException e) {
+                Log.d("not ok", "not ok");
 //                    return false;
-        }
-
+            }
+    if (!mMobileBCRApp.T1Num.equals("Не найдено, код неверен")) {
         try {
             StringBuilder builder = new StringBuilder();
             HttpClient client = mMobileBCRApp.getNewHttpClient(); //new DefaultHttpClient();
@@ -367,14 +412,14 @@ public class TOneForm extends Activity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             mMobileBCRApp.dataLV.add(new T1Item(jsonObject.getString("PRODUCTNAME")
-                                                                , jsonObject.getString("CERNNUM")
-                                                                , jsonObject.getString("BARCODE")
-                                                                , "0"
-                                                                , jsonObject.getString("PLAVKNUM")
-                                                                , jsonObject.getString("PARTNUM")
-                                                                , jsonObject.getString("PACKNUM")
-                                                                , jsonObject.getString("WEIGHTC")
-                                                                , jsonObject.getString("LONGNAME")));
+                                    , jsonObject.getString("CERNNUM")
+                                    , jsonObject.getString("BARCODE")
+                                    , "0"
+                                    , jsonObject.getString("PLAVKNUM")
+                                    , jsonObject.getString("PARTNUM")
+                                    , jsonObject.getString("PACKNUM")
+                                    , jsonObject.getString("WEIGHTC")
+                                    , jsonObject.getString("LONGNAME")));
                             //   data.add(jsonObject.getString("KPP_NAME"));
                             vStatus = true;
                         }
@@ -403,7 +448,8 @@ public class TOneForm extends Activity {
             Log.d("not ok", "not ok");
 //                    return false;
         }
-//            return false;
+//                     return false;
+    }
     }
     public void showProgress(Boolean flag) {
         if (flag) {
@@ -427,4 +473,42 @@ public class TOneForm extends Activity {
         }
     }
 
+
+    //обработаем результаты сканирования лаз. сканером
+    private void handleDecodeData(Intent i) {
+        // check the intent action is for us
+        if (i.getAction().contentEquals(ourIntentAction)) {
+            String out = "";
+            String source = i.getStringExtra(SOURCE_TAG);
+            if (source == null) source = "scanner";
+            String data = i.getStringExtra(DATA_STRING_TAG);
+            Integer data_len = 0;
+            if (data != null) data_len = data.length();
+            if (source.equalsIgnoreCase("scanner")) {
+                if (data != null && data.length() > 0) {
+                    String sLabelType = i.getStringExtra(LABEL_TYPE_TAG);
+                    if (sLabelType != null && sLabelType.length() > 0) {
+                        sLabelType = sLabelType.substring(11);
+                    } else {
+                        sLabelType = "Unknown";
+                    }
+                    out = "Source: Scanner, " + "Symbology: " + sLabelType + ", Length: " + data_len.toString() + ", Data: ...\r\n";
+                }
+            }
+            if (source.equalsIgnoreCase("msr")) {
+                out = "Source: MSR, Length: " + data_len.toString() + ", Data: ...\r\n";
+            }
+            Toast.makeText(this, "Штрих код ТМЦ " + data, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+                /*временно присваиваем штриход в строку с элементами*/
+            mMobileBCRApp.BarCodeR=mMobileBCRApp.BarCodeR+";" + data +";";
+            ;
+            mMobileBCRApp.CurrBC=data;
+
+            finish();
+                /*рефрешим экран*/
+            intent.setClass(TOneForm.this, TOneForm.class);
+            startActivity(intent);
+        }
+    }
 }
