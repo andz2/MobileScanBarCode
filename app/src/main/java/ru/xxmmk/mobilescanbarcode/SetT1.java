@@ -3,6 +3,7 @@ package ru.xxmmk.mobilescanbarcode;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -114,7 +115,13 @@ public class SetT1 extends Activity {
     // We need to handle any incoming intents, so let override the onNewIntent method
     @Override
     public void onNewIntent(Intent i) {
+    try {
         handleDecodeData(i);
+    }
+    catch (final Exception e)
+        {
+           Log.d("1","java.lang.NullPointerException");
+        }
     }
     //запуск сканирования
     public void scanBarcodeCustomOptions(View view) {
