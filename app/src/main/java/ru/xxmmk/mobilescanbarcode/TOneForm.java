@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -107,12 +109,23 @@ public class TOneForm extends Activity {
         nfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build(); //политика сетевого доступа
         StrictMode.setThreadPolicy(policy); //применяем политику
+
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        Log.d("zzzzzzzzzzz height=",height+"");
+        Log.d("zzzzzzzzzzz width=",width+"");
+        /*рисуем кнопку*/
         FloatingActionButton fabButton = new FloatingActionButton.Builder(this)
                 .withDrawable(getResources().getDrawable(R.drawable.abc_ic_cab_done_holo_dark/*R.drawable.block*/))
                 .withButtonColor(Color.RED)
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withButtonSize(92)
-                .withMargins(0, 0, 10,480)
+               // .withMargins(0, 0, 10,480)
+                .withMargins(0, 0, 0,width-107)
                 .create();
         fabButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -132,6 +145,19 @@ public class TOneForm extends Activity {
                 startActivity(intent);
             }
         });
+
+        Button ScanCode = (Button) findViewById(R.id.Scan);
+        /*или onClick scanBarcodeCustomOptions*/
+        ScanCode.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                //Запуск сканирования с кнопки
+                Intent i = new Intent();
+                i.setAction(ACTION_SOFTSCANTRIGGER);
+                i.putExtra(EXTRA_PARAM, DWAPI_TOGGLE_SCANNING);
+                TOneForm.this.sendBroadcast(i);
+            }
+        });
+
         pd = new ProgressDialog(TOneForm.this);
         pd.setMessage("Дождитесь окончания загрузки...");
 /*      dataLV.add(new T1Item("Заголовок1","Подзаголовок1","Подзаголовок1-1","0"));

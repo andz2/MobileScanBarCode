@@ -10,167 +10,202 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:gravity="center_vertical"
+        android:layout_above="@+id/EnterChancel">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:text="Номер"
             android:id="@+id/textNumId"
-            android:textSize="30dp"
-            android:gravity="center_vertical|center_horizontal"
+            android:textSize="27dp"
+            android:gravity="top|center_horizontal"
             android:textStyle="bold" />
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/calcL">
 
-            <TableRow
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal">
+                android:gravity="center">
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="1 "
                     android:id="@+id/button1"
                     android:layout_column="1"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
-                    android:textSize="40dp" />
+                    android:textSize="40dp"
+                    android:layout_margin="20dp" />
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="2 "
                     android:id="@+id/button2"
                     android:layout_column="2"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:textSize="40dp" />
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="3 "
                     android:id="@+id/button3"
                     android:layout_column="3"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:textSize="40dp" />
-            </TableRow>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
 
-            <TableRow
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal">
+                android:layout_height="fill_parent"
+                android:gravity="center">
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="4 "
                     android:id="@+id/button4"
                     android:layout_column="1"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
-                    android:textSize="40dp" />
+                    android:textSize="40dp"
+                    android:layout_margin="20dp" />
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="5 "
                     android:id="@+id/button5"
                     android:layout_column="2"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:textSize="40dp" />
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="6"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="6 "
                     android:id="@+id/button6"
                     android:layout_column="3"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:textSize="40dp" />
-            </TableRow>
-            <TableRow
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal">
+                android:layout_height="fill_parent"
+                android:gravity="center">
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="7"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="7 "
                     android:id="@+id/button7"
                     android:layout_column="1"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
-                    android:textSize="40dp" />
+                    android:textSize="40dp"
+                    android:layout_margin="20dp"
+                    />
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="8"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="8 "
                     android:id="@+id/button8"
                     android:layout_column="2"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:textSize="40dp" />
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="9"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="9 "
                     android:id="@+id/button9"
                     android:layout_column="3"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:textSize="40dp" />
-            </TableRow>
-            <TableRow
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:gravity="center_horizontal">
+                android:gravity="center">
+
                 <Button
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:text="&lt;- "
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="&lt; "
                     android:id="@+id/backspace"
                     android:layout_column="1"
-                    android:background="@drawable/btn_scan_state"
+                    android:background="@drawable/btn_ch_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
-                    android:textSize="40dp" />
+                    android:textSize="40dp"
+                    android:layout_margin="20dp"
+                    />
+
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="0 "
                     android:id="@+id/button0"
                     android:layout_column="2"
                     android:background="@drawable/btn_calc_state"
                     android:textColor="@color/text_white"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:textSize="40dp" />
+
                 <Button
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:text="Ent"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text="Ok "
                     android:id="@+id/ent"
                     android:layout_column="3"
-                    android:background="@drawable/btn_bk_state"
-                    android:textColor="@color/text_dark"
-                    android:layout_margin="10dp"
-                    android:textSize="40dp" />
+                    android:background="@drawable/btn_calc_ok_state"
+                    android:textColor="@color/text_white"
+                    android:layout_margin="20dp"
+                    android:textSize="35dp" />
+            </LinearLayout>
+        </LinearLayout>
 
-            </TableRow>
-
-        </TableLayout>
     </LinearLayout>
 
     <Button

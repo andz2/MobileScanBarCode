@@ -64,7 +64,7 @@ public class SetT1 extends Activity {
 
         if (mMobileBCRApp.TwoActFlag)
         {finish();
-        mMobileBCRApp.TwoActFlag=false;}
+            mMobileBCRApp.TwoActFlag=false;}
         Button Bk = (Button) findViewById(R.id.SetT1Ch);
         Bk.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -96,14 +96,20 @@ public class SetT1 extends Activity {
                 intent.putExtra("SCAN_MODE", "ONE_D_MODE");
                 intent.putExtra("SCAN_FORMATS", "CODE_39,CODE_93,CODE_128,DATA_MATRIX,ITF,CODABAR,EAN_13,EAN_8,UPC_A,QR_CODE");
                 startActivityForResult(intent,1);*/
-                   mMobileBCRApp.ClearTmpData();
-                   scanBarcodeCustomOptions(v);
+                mMobileBCRApp.ClearTmpData();
+          //      scanBarcodeCustomOptions(v); //сканирование с камеры
+                //Запуск сканирования с кнопки
+                Intent i = new Intent();
+                i.setAction(ACTION_SOFTSCANTRIGGER);
+                i.putExtra(EXTRA_PARAM, DWAPI_TOGGLE_SCANNING);
+                SetT1.this.sendBroadcast(i);
+        //        Toast.makeText(v.getContext(), "Soft scan trigger toggled.", Toast.LENGTH_SHORT).show();
 
             }
         });
         mMobileBCRApp.dataLV.clear(); //очистим массив с элементами Т-1
         Intent i = getIntent();
-    //    handleDecodeData(i);
+        //    handleDecodeData(i);
     }
 
     @Override
@@ -115,12 +121,12 @@ public class SetT1 extends Activity {
     // We need to handle any incoming intents, so let override the onNewIntent method
     @Override
     public void onNewIntent(Intent i) {
-    try {
-        handleDecodeData(i);
-    }
-    catch (final Exception e)
+        try {
+            handleDecodeData(i);
+        }
+        catch (final Exception e)
         {
-           Log.d("1","java.lang.NullPointerException");
+            Log.d("1","java.lang.NullPointerException");
         }
     }
     //запуск сканирования

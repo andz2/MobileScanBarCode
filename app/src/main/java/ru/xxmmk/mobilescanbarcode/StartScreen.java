@@ -348,7 +348,8 @@ public class StartScreen extends Activity {
                 Logbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_ok)); //setBackgroundResource
                 Logbutton.setTextColor(Color.rgb(255,255,255));
                 //      Logbutton.setText(Html.fromHtml(/*getResources().getString(R.string.seccabstr)*/"<b>Личный кабинет</b><br><br><sup><small>Нажмите для информации</small></sup>"));
-                mMobileBCRApp.SKDStep = "2";
+              //  mMobileBCRApp.SKDStep = "2";
+                mMobileBCRApp.SKDStep = "3"; //временно
             } else
             {
                 Log.d("Мы не в сети","сети нет");
@@ -381,12 +382,14 @@ public class StartScreen extends Activity {
                         Logbutton.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_inact)); //setBackgroundResource
                         Logbutton.setTextColor(Color.rgb(0, 0, 0));/*(Color.rgb(65, 169, 4));*/
                         //      Logbutton.setText(Html.fromHtml(/*getResources().getString(R.string.seccabstr)*/"<b>Личный кабинет</b><br><br><sup><small>Нажмите для информации</small></sup>"));
-                        mMobileBCRApp.SKDStep = "2";
+                        //mMobileBCRApp.SKDStep = "2";
+                        mMobileBCRApp.SKDStep = "3"; //временно
                     }
                     //  setContentView(R.layout.error_l);
                 }
 
             }
+            StartScreen();
         }
 
         @Override

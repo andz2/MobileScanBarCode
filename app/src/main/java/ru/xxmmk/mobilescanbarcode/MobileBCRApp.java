@@ -38,20 +38,25 @@ import javax.net.ssl.X509TrustManager;
 
 public class MobileBCRApp extends Application {
         public String SKDOperator="Кто ВЫ?";
-        public String SKDKPP="Укажите автопроезд";
+        public String SKDKPP="Автопроезд 12";//"Укажите автопроезд"; //временно
         public String SKDStep="1";
         public String SKDOperRfId;
         public String T1BarCode = "12345"; //Т-1
         public String SKDRfId; //карта охранника
         public Boolean    NetErr = false;
         protected String mResult= "null";
-        private String mLoginURL = "http://neptun.eco.mmk.chel.su:7777/pls/apex/XXOTA_APEX.XXHR_SKD_MOBILE.login";//"https://navigator.mmk.ru/login_kis.aspx";
+        private String mLoginURL = "http://neptun.eco.mmk.chel.su:7777/pls/apex/XXOTA_APEX.xxmob_auto_pkg.login";//"https://navigator.mmk.ru/login_kis.aspx";
         public String mDatURL = "http://neptun.eco.mmk.chel.su:7777/pls/apex/XXOTA_APEX.MOBILE_SKD_VIEW";//"https://navigator.mmk.ru/login_kis.aspx";
-        public String ListKPP = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxhr_skd_mobile.list_kpp";
+        public String ListKPP = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.list_kpp";
 
-        public String URLListCargoItems = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_list_json";
-        public String URLT1Headerdata       = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_hdr_json";
+        public String URLListCargoItems    = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_list_json";
+        public String URLT1Headerdata      = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.get_t1_hdr_json";
+
+        public String URLAuditHeader       = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.set_header_audit";
+        public String URLAuditLines        = "http://neptun.eco.mmk.chel.su:7777/pls/apex/xxota_apex.xxmob_auto_pkg.set_lines_audit";
+
         public String T1Header;
+        public String AuditSeq;
         public String BarCodeR =""; //";Штрихкод: 324;Штрихкод: 785;"; массив штрих кодов
         public String CurrBC ="";   //текущий шк
         public ArrayList<T1Item> dataLV = new ArrayList<T1Item>(); //массив итемов для Т1
@@ -97,6 +102,14 @@ public class MobileBCRApp extends Application {
     public String getT1ItemDataURL(String T1N) {
         return this.URLListCargoItems+"?p_t1n="+T1N+"";
     }
+
+    public String getT1AuditHeaderURL(String pBc,String pRes) {
+        return this.URLListCargoItems+"?p_res="+pBc+"&p_res="+pRes+"";
+    }
+    public String getT1AuditLinesURL(String pSeq,String pBc,String pBcLine,String pRes) {
+        return this.URLListCargoItems+"?p_seq="+pSeq+"&p_bc="+pBc+"&p_bc_line="+pBcLine+"&p_res="+pRes+"";
+    }
+
     public void ClearTmpData ()
     {
         dataLV.clear(); //очистим массив с элементами Т-1

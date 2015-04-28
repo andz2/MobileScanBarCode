@@ -30,7 +30,7 @@
                 android:layout_marginBottom="20dp" />
 
             <TextView android:text="@string/barCode" android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:textSize="24dp"
                 android:id="@+id/ItemBc"
                 android:paddingBottom="10dp"

@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Сканируйте или внесите вручную номер Т-1"
+            android:text="Сканируйте или внесите вручную номер 1-Т"
             android:id="@+id/textView4"
             android:textSize="40dp"
             android:gravity="top|center_horizontal"

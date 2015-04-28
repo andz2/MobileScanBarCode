@@ -3,7 +3,7 @@
 
     <string name="app_name">Сканер ШК</string>
     <string name="LoginBtn"><b>Авторизоваться</b>\n<font face="Arial" size="15">\nПоднесите личную карту к устройству</font></string>
-    <string name="ScanBtn"><b>Сканировать</b>\n<font face="Arial" size="15">\nСканировать форму Т-1</font></string>
+    <string name="ScanBtn"><b>Сканировать</b>\n<font face="Arial" size="15">\nСканировать форму 1-Т</font></string>
     <string name="getKPP"><b>Выбрать автопроезд</b>\n<font face="Arial" size="15">\nИз списка</font></string>
     <string name="ExitBtn"><b>Выход</b>\n<font face="Arial" size="15">\nВыход из программы</font></string>
     <string name="action_settings">Settings</string>
@@ -25,7 +25,7 @@
     <string name="title_activity_set_t1">SetT1</string>
     <string name="title_activity_result_t1">ResultT1</string>
     <string name="no_all_item">Имеются необработанные коды</string>
-    <string name="incorrect_item">Имеются коды отсутствующие в Т-1</string>
+    <string name="incorrect_item">Имеются коды отсутствующие в 1-Т</string>
     <string name="all_ok_item">Все ТМЦ успешно отсканированы</string>
 
 </resources>

@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Номер Т1"
+            android:text="Номер 1-Т"
             android:id="@+id/NumT1"
             android:gravity="top|left"
             android:textSize="24sp"
@@ -80,7 +80,6 @@
             android:background="@drawable/btn_scan_state"
             android:layout_weight="0.5"
             android:paddingLeft="10dp"
-            android:onClick="scanBarcodeCustomOptions"
             android:textColor="@color/text_white" />
     </LinearLayout>
 

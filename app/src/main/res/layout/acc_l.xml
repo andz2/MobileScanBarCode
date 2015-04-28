@@ -56,7 +56,7 @@
         android:gravity="center_horizontal|bottom"
         android:layout_gravity="center_horizontal|bottom"
         android:textColor="#66CC66"
-        android:textSize="60dp"
+        android:textSize="50dp"
         android:textIsSelectable="false"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/textView2"
