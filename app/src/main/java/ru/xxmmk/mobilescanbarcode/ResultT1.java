@@ -4,10 +4,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.nfc.NfcAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Spannable;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -45,6 +48,9 @@ public class ResultT1 extends Activity {
     public Boolean isOk=false;
     public Boolean incorrectR= false;
     public Boolean notAll = false;
+    ProgressDialog pd;
+    private SaveAudit mSaveAudit = null;
+    private String pRes; //переменная разрешаем/запрещеаем выезд
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,27 +136,20 @@ public class ResultT1 extends Activity {
                             dlgAlert.create().show();
                         }
                 else {
-                     mMobileBCRApp.dataLV.clear();
-                     mMobileBCRApp.BarCodeR = "";
-                     finish();
-                     mMobileBCRApp.TwoActFlag = true;
-                     Intent intent = new Intent();
-                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                     intent.setClass(ResultT1.this, SetT1.class);
-                     startActivity(intent);
+                     showProgress(true);
+                     pRes="Y";
+                     mSaveAudit = new SaveAudit(mMobileBCRApp.SKDRfId);
+                     mSaveAudit.execute((Void) null);
                  }
             }
         });
         Button resErr =(Button) findViewById(R.id.ResultErr);
         resErr.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mMobileBCRApp.dataLV.clear();
-                mMobileBCRApp.BarCodeR="";
-                finish();
-                mMobileBCRApp.TwoActFlag=true;
-                Intent intent = new Intent();
-                intent.setClass(ResultT1.this, SetT1.class);
-                startActivity(intent);
+            public void onClick(View v) { //запрещаем выезд
+                showProgress(true);
+                pRes="N";
+                mSaveAudit = new SaveAudit(mMobileBCRApp.SKDRfId);
+                mSaveAudit.execute((Void) null);
             }
         });
     }
@@ -236,58 +235,114 @@ public class ResultT1 extends Activity {
         }
         if (!mMobileBCRApp.AuditSeq.equals("-1")) {
             //здесь откроем цикл
-            try {
-                StringBuilder builder = new StringBuilder();
-                HttpClient client = mMobileBCRApp.getNewHttpClient(); //new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(mMobileBCRApp.getT1AuditLinesURL(mMobileBCRApp.AuditSeq,T1Bc,"123","Y"));
-                //  Log.d(mMobileBCRApp.getLOG_TAG(), mMobileBCRApp.ListCargoItems);
+            for (int t = 0; t < mMobileBCRApp.dataLV.size(); t++) {
                 try {
-                    HttpResponse response = client.execute(httpGet);
-                    StatusLine statusLine = response.getStatusLine();
-                    int statusCode = statusLine.getStatusCode();
-                    if (statusCode == 200) {
-                        HttpEntity entity = response.getEntity();
-                        InputStream content = entity.getContent();
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            builder.append(line);
-                        }
-                        try {
-                            //Toast.makeText(this.getBaseContext(), builder.toString(), Toast.LENGTH_LONG).show();
-                            JSONArray jsonArray = new JSONArray(builder.toString());
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                //возьмём результат
-                                vStatus = true;
+                    StringBuilder builder = new StringBuilder();
+                    HttpClient client = mMobileBCRApp.getNewHttpClient(); //new DefaultHttpClient();
+                    HttpGet httpGet = new HttpGet(mMobileBCRApp.getT1AuditLinesURL(mMobileBCRApp.AuditSeq, T1Bc, mMobileBCRApp.dataLV.get(t).getSubHeader1(), pRes));
+                    //  Log.d(mMobileBCRApp.getLOG_TAG(), mMobileBCRApp.ListCargoItems);
+                    try {
+                        HttpResponse response = client.execute(httpGet);
+                        StatusLine statusLine = response.getStatusLine();
+                        int statusCode = statusLine.getStatusCode();
+                        if (statusCode == 200) {
+                            HttpEntity entity = response.getEntity();
+                            InputStream content = entity.getContent();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                builder.append(line);
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            try {
+                                //Toast.makeText(this.getBaseContext(), builder.toString(), Toast.LENGTH_LONG).show();
+                                JSONArray jsonArray = new JSONArray(builder.toString());
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    //возьмём результат
+                                    vStatus = true;
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Log.d("not ok", "not ok");
                         }
+                    } catch (ClientProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        mMobileBCRApp.NetErr = true;
+                    }
+                    Thread.sleep(10);
+                    if (vStatus) {
+//                        return true;
+                        Log.d("ok", "ok");
                     } else {
                         Log.d("not ok", "not ok");
-                    }
-                } catch (ClientProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    mMobileBCRApp.NetErr = true;
-                }
-                Thread.sleep(10);
-                if (vStatus) {
-//                        return true;
-                    Log.d("ok", "ok");
-                } else {
-                    Log.d("not ok", "not ok");
 //                        return false;
-                }
+                    }
 
-            } catch (InterruptedException e) {
-                Log.d("not ok", "not ok");
+                } catch (InterruptedException e) {
+                    Log.d("not ok", "not ok");
 //                    return false;
+                }
             }
 //                     return false;
         }
         //если -1 то выведу ругачку
+    }
+    public class  SaveAudit extends AsyncTask<Void, Void, Boolean> {
+        private String mToken = "null";
+
+        SaveAudit(String rfId) {
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) { //сохранямся
+                SetAuditData(mMobileBCRApp.T1BarCode,pRes);
+            return true;
+        }
+
+        //обработка результата сохранения
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            showProgress(false);
+            mSaveAudit = null;
+            mMobileBCRApp.dataLV.clear();
+            mMobileBCRApp.BarCodeR = "";
+            finish();
+            mMobileBCRApp.TwoActFlag = true;
+            Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.setClass(ResultT1.this, SetT1.class);
+            startActivity(intent);
+        }
+        @Override
+        protected void onCancelled() {
+            mSaveAudit = null;
+            showProgress(false);
+        }
+    }
+    public void showProgress(Boolean flag) {
+        if (flag) {
+            pd = new ProgressDialog(ResultT1.this);
+            pd.setMessage("Дождитесь окончания загрузки...");
+            pd.show();
+        } else
+        {
+            try
+            {
+                if ((this.pd != null) && this.pd.isShowing()) {
+                    this.pd.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                this.pd = null;
+            }
+        }
     }
 }

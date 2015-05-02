@@ -67,7 +67,7 @@ public class MobileBCRApp extends Application {
         public Boolean isChancel = false;
         public Boolean TwoActFlag =false; //флаг закрытия повторной активности
         public boolean Scant1;
-
+        public boolean empty1T; //флаг на пустую 1-Т
         private static MobileBCRApp instance;
 
 

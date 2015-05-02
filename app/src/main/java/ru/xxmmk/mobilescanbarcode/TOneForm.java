@@ -168,6 +168,7 @@ public class TOneForm extends Activity {
 
         lv = (ListView) this.findViewById(R.id.listView);
 
+
     }
 
 
@@ -184,8 +185,6 @@ public class TOneForm extends Activity {
                 GetT1Data();}
         else
             mMobileBCRApp.isChancel=false;
-
-
     }
 
 
@@ -343,6 +342,13 @@ public class TOneForm extends Activity {
                     }
                 });
             }
+            if (mMobileBCRApp.empty1T)
+            {
+                finish();
+                Intent intent = new Intent();
+                intent.setClass(TOneForm.this, empty1T.class);
+                startActivity(intent);
+            }
         }
         @Override
         protected void onCancelled() {
@@ -361,6 +367,7 @@ public class TOneForm extends Activity {
                 StringBuilder builder = new StringBuilder();
                 HttpClient client = mMobileBCRApp.getNewHttpClient(); //new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(mMobileBCRApp.getT1HeaderDataURL(T1BC));
+                mMobileBCRApp.empty1T=true;
                 try {
                     HttpResponse response = client.execute(httpGet);
                     StatusLine statusLine = response.getStatusLine();
@@ -381,6 +388,7 @@ public class TOneForm extends Activity {
                             mMobileBCRApp.T1Header = "Не найдено, код неверен";
                             mMobileBCRApp.T1Num = "Не найдено, код неверен";
                             for (int i = 0; i < jsonArray.length(); i++) {
+                                mMobileBCRApp.empty1T=false;
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 mMobileBCRApp.T1Driver = jsonObject.getString("FIODRIVER");
                                 mMobileBCRApp.T1Auto = jsonObject.getString("NUMAUTO");

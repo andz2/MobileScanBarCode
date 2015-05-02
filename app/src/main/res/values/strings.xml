@@ -27,5 +27,6 @@
     <string name="no_all_item">Имеются необработанные коды</string>
     <string name="incorrect_item">Имеются коды отсутствующие в 1-Т</string>
     <string name="all_ok_item">Все ТМЦ успешно отсканированы</string>
+    <string name="title_activity_empty1_t">empty1T</string>
 
 </resources>
