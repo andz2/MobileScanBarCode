@@ -254,7 +254,7 @@ public class StartScreen extends Activity {
 
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private String mToken = "null";
+
         UserLoginTask(String rfId) {
         }
 
@@ -286,7 +286,7 @@ public class StartScreen extends Activity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                    mToken = jsonObject.getString("token");
+                                    mMobileBCRApp.mToken = jsonObject.getString("token");
                                     mMobileBCRApp.SKDOperator = jsonObject.getString("oper");
                                     vStatus = true;
                                     //   Log.d(jsonObject.getString("oper"),"Tst");
@@ -312,7 +312,7 @@ public class StartScreen extends Activity {
                     }
 
                     Thread.sleep(10);
-                    vStatus = vStatus && !mToken.equals("null");
+                    vStatus = vStatus && !mMobileBCRApp.mToken.equals("null");
                     if (vStatus) {
 //                        mMobileBCRApp.setmHASH(mToken);**********************************временно убрано
                         return true;
@@ -429,12 +429,15 @@ public class StartScreen extends Activity {
         Scanbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mMobileBCRApp.Scant1=true; //поднимаем флаг что будем сканировать Т-1
-                mMobileBCRApp.TwoActFlag=false;
-                Intent intent = new Intent();
-                intent.setClass(StartScreen.this, SetT1.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                if (mMobileBCRApp.SKDStep!="1")
+                {
+                    mMobileBCRApp.Scant1 = true; //поднимаем флаг что будем сканировать Т-1
+                    mMobileBCRApp.TwoActFlag = false;
+                    Intent intent = new Intent();
+                    intent.setClass(StartScreen.this, SetT1.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
            }
         });
 

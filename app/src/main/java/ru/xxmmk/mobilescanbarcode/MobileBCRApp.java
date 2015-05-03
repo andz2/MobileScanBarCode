@@ -69,6 +69,7 @@ public class MobileBCRApp extends Application {
         public boolean Scant1;
         public boolean empty1T; //флаг на пустую 1-Т
         private static MobileBCRApp instance;
+        public String mToken;
 
 
         public MobileBCRDB getmDbHelper() {
@@ -97,17 +98,17 @@ public class MobileBCRApp extends Application {
     }
 
     public String getT1HeaderDataURL(String bc) {
-        return this.URLT1Headerdata+"?p_bc="+bc+"";
+        return this.URLT1Headerdata+"?p_bc="+bc+"&p_token="+mToken+"";
     }
     public String getT1ItemDataURL(String T1N) {
         return this.URLListCargoItems+"?p_t1n="+T1N+"";
     }
 
     public String getT1AuditHeaderURL(String pBc,String pRes) {
-        return this.URLListCargoItems+"?p_res="+pBc+"&p_res="+pRes+"";
+        return this.URLAuditHeader+"?p_bc="+pBc+"&p_res="+pRes+"&p_token="+mToken+"";
     }
     public String getT1AuditLinesURL(String pSeq,String pBc,String pBcLine,String pRes) {
-        return this.URLListCargoItems+"?p_seq="+pSeq+"&p_bc="+pBc+"&p_bc_line="+pBcLine+"&p_res="+pRes+"";
+        return this.URLAuditLines+"?p_seq="+pSeq+"&p_bc="+pBc+"&p_bc_line="+pBcLine+"&p_res="+pRes+"&p_token="+mToken+"";
     }
 
     public void ClearTmpData ()

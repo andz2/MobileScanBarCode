@@ -178,8 +178,6 @@ public class ResultT1 extends Activity {
     }
     public void SetAuditData (String T1Bc,String pRes) {
 
-
-        mMobileBCRApp.dataLV.clear();
         Boolean vStatus = false;
         mMobileBCRApp.NetErr = false;
         //сохраняем аудит 1-Т
@@ -239,7 +237,7 @@ public class ResultT1 extends Activity {
                 try {
                     StringBuilder builder = new StringBuilder();
                     HttpClient client = mMobileBCRApp.getNewHttpClient(); //new DefaultHttpClient();
-                    HttpGet httpGet = new HttpGet(mMobileBCRApp.getT1AuditLinesURL(mMobileBCRApp.AuditSeq, T1Bc, mMobileBCRApp.dataLV.get(t).getSubHeader1(), pRes));
+                    HttpGet httpGet = new HttpGet(mMobileBCRApp.getT1AuditLinesURL(mMobileBCRApp.AuditSeq, T1Bc, mMobileBCRApp.dataLV.get(t).getSubHeader1(), mMobileBCRApp.dataLV.get(t).getChecked()/*pRes*/));
                     //  Log.d(mMobileBCRApp.getLOG_TAG(), mMobileBCRApp.ListCargoItems);
                     try {
                         HttpResponse response = client.execute(httpGet);
