@@ -178,6 +178,7 @@ public class EnterCode extends Activity {
     }
     public void Enter ()
     {
+       // EntText="129000000138";
         if (mMobileBCRApp.Scant1)
         {
             mMobileBCRApp.T1BarCode=EntText;

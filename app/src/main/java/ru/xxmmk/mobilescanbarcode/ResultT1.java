@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -123,33 +122,30 @@ public class ResultT1 extends Activity {
                 startActivity(intent);
             }
         });
-        //кнопка разрешить
-        Button resOk =(Button) findViewById(R.id.ResultOk);
+        //кнопка принять решение
+        Button resOk =(Button) findViewById(R.id.Res1T);
         resOk.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Intent intent = new Intent();
                  if (incorrectR||notAll)
-                        {
-                            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(ResultT1.this);
-                            dlgAlert.setMessage("Считанные данные не соответствуют 1-Т");
-                            dlgAlert.setTitle("Ошибка");
-                            dlgAlert.setPositiveButton("OK", null);
-                            dlgAlert.create().show();
+                        { //запрещаем выезд
+                            showProgress(true);
+                            mSaveAudit = new SaveAudit(mMobileBCRApp.SKDRfId);
+                            mSaveAudit.execute((Void) null);
+                            pRes="N";
+                            finish();
+                            intent.setClass(ResultT1.this, ResultNo.class);
+                            startActivity(intent);
                         }
-                else {
+                else {//разпрешаем выезд
                      showProgress(true);
                      pRes="Y";
                      mSaveAudit = new SaveAudit(mMobileBCRApp.SKDRfId);
                      mSaveAudit.execute((Void) null);
+                     finish();
+                     intent.setClass(ResultT1.this, ResultOk.class);
+                     startActivity(intent);
                  }
-            }
-        });
-        Button resErr =(Button) findViewById(R.id.ResultErr);
-        resErr.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) { //запрещаем выезд
-                showProgress(true);
-                pRes="N";
-                mSaveAudit = new SaveAudit(mMobileBCRApp.SKDRfId);
-                mSaveAudit.execute((Void) null);
             }
         });
     }

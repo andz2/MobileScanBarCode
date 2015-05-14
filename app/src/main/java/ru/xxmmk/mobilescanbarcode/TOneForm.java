@@ -125,7 +125,7 @@ public class TOneForm extends Activity {
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withButtonSize(92)
                 .withMargins(0, 0, 10,480)
-            //    .withMargins(0, 0, 0,width-107)
+            //   .withMargins(0, 0, 0,width-107)
                 .create();
         fabButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

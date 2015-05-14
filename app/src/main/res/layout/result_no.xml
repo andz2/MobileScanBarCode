@@ -37,12 +37,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="ОТСУТСВУЮТ ДАННЫЕ ОБ 1-Т"
+        android:text="ВЫЕЗД ЗАПРЕЩЕН"
         android:id="@+id/xot"
         android:gravity="center_horizontal|bottom"
         android:layout_gravity="center_horizontal|bottom"
         android:textColor="#FF6666"
-        android:textSize="40dp"
+        android:textSize="50dp"
         android:textIsSelectable="false"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/textView2"
@@ -51,7 +51,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Данная 1-Т не существует\n\nПопробуйте заново сканировать\n"
+        android:text="\nСчитанные данные не соответствуют 1-Т \n"
         android:id="@+id/textView2"
         android:textColor="#ffffffff"
         android:textSize="18dp"
@@ -63,14 +63,15 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:text="Отмена"
+        android:text="Ок"
         android:id="@+id/bkerr"
-        android:background="#999999"
+        android:background="@drawable/btn_scan_state"
         android:layout_gravity="center_horizontal|bottom"
         android:gravity="center"
         android:textSize="25dp"
         android:width="150dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/text_white" />
 
 </RelativeLayout>

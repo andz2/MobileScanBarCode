@@ -75,7 +75,6 @@
         <activity
             android:name="ru.xxmmk.mobilescanbarcode.SetT1"
             android:label="@string/title_activity_set_t1"
-            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="ru.xxmmk.mobilescanbarcode.T1" />
@@ -92,6 +91,17 @@
             android:label="@string/title_activity_empty1_t"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
         </activity>
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.ResultNo"
+            android:label="@string/title_activity_empty1_t"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name="ru.xxmmk.mobilescanbarcode.ResultOk"
+            android:label="@string/title_activity_empty1_t"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+        </activity>
     </application>
 
 </manifest>
+    <!--android:launchMode="singleTask"-->

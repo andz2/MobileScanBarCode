@@ -9,10 +9,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:layout_above="@+id/ItemBk"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/linearLayoutBottom">
 
         <LinearLayout
             android:orientation="vertical"
@@ -92,14 +92,36 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Назад"
-        android:id="@+id/ItemBk"
-        android:layout_alignParentTop="false"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/btn_bk_state" />
+        android:id="@+id/linearLayoutBottom"
+        android:background="#00ffffff">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Удалить ошибку"
+            android:id="@+id/BtnDel"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_scan_state"
+            android:textColor="@color/text_white"
+            android:drawableLeft="@android:drawable/ic_dialog_alert" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Назад"
+            android:id="@+id/ItemBk"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_bk_state" />
+    </LinearLayout>
 
 </RelativeLayout>

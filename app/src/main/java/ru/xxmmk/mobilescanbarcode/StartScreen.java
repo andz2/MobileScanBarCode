@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+/*import android.widget.Toast;*/
 
 import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -241,7 +241,7 @@ public class StartScreen extends Activity {
    final protected static char[] hexArray = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
     public static String bytesToHex(byte[] bytes) {
-        byte[] nb ={45,-93, 102, -3};
+      //  byte[] nb ={45,-93, 102, -3};
         char[] hexChars = new char[bytes.length * 2];
         int v;
         for ( int j = bytes.length-1; j >=0; j-- ) {

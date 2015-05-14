@@ -27,29 +27,19 @@
             android:layout_marginTop="10dp"
             android:textSize="25dp"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_weight="0.17" />
+            android:layout_weight="0.07" />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Разрешить выезд"
-            android:id="@+id/ResultOk"
-            android:textSize="25dp"
-            android:background="@drawable/btn_bk_state"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Запретить выезд"
-            android:id="@+id/ResultErr"
+            android:layout_height="80dp"
+            android:text="Принять решение"
+            android:id="@+id/Res1T"
             android:textSize="25dp"
             android:background="@drawable/btn_scan_state"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp" />
+            android:textColor="@color/text_white" />
 
         <TextView
             android:layout_width="match_parent"
